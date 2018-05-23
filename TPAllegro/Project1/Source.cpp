@@ -6,10 +6,18 @@
 
 using namespace std;
 
+enum KEYS{UP,DOWN,LEFT,RIGHT};
+
 int main(int argc, char **argv) {
 
 	ALLEGRO_DISPLAY *display = NULL;
-	ALLEGRO_BITMAP  *image = NULL;
+	ALLEGRO_BITMAP  *player = NULL;
+	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	int playerX = 200;
+	int playerY = 200;
+	bool keys[4] = { false, false, false, false };
+	bool running = true;
+	
 
 	if (!al_init()) {
 		al_show_native_message_box(display, "Error", "Error", "Failed to initialize allegro!",
@@ -24,6 +32,7 @@ int main(int argc, char **argv) {
 	}
 
 	display = al_create_display(800, 600);
+	
 
 	if (!display) {
 		al_show_native_message_box(display, "Error", "Error", "Failed to initialize display!",
@@ -31,22 +40,83 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 
-	image = al_load_bitmap("archivo de imagen.png");
-
-	if (!image) {
+	player = al_load_bitmap("player.png");
+	al_draw_bitmap(player, playerX, playerY, 0);
+	al_clear_to_color(al_map_rgb(50, 75, 0));
+	
+	
+	if (!player) {
 		al_show_native_message_box(display, "Error", "Error", "Failed to load image!",
 			NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		al_destroy_display(display);
 		return 0;
 	}
+	event_queue = al_create_event_queue();
+	al_install_keyboard();
 
-	al_draw_bitmap(image, 200, 200, 0);
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
+	al_register_event_source(event_queue, al_get_display_event_source(display));
 
-	al_flip_display();
-	al_rest(2);
+	while (running) {
+		al_clear_to_color(al_map_rgb(50, 75, 0));
+		ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev);
+
+		if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+			switch (ev.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				keys[UP] = true;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				keys[DOWN] = true;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = true;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = true;
+				break;
+			case ALLEGRO_KEY_ESCAPE:
+				running = false;
+				break;
+			}
+		}
+		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
+			switch (ev.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				keys[UP] = false;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				keys[DOWN] = false;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = false;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = false;
+				break;
+			case ALLEGRO_KEY_ESCAPE:
+				running = false;
+				break;
+			}
+		}
+		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			running = false;
+
+		playerY -= keys[UP] * 10;
+		playerY += keys[DOWN] * 10;
+		playerX -= keys[LEFT] * 10;
+		playerX += keys[RIGHT] *10;
+
+		al_draw_bitmap(player, playerX, playerY, 0);
+		al_flip_display();
+	}
+
+	
+	al_rest(0.1);
 
 	al_destroy_display(display);
-	al_destroy_bitmap(image);
+	al_destroy_bitmap(player);
 
 	return 0;
 }
