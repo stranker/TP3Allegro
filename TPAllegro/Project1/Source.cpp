@@ -191,14 +191,29 @@ int main(int argc, char **argv) {
 
 		if (AABB(playerX, playerY, playerW, playerH, enemyX, enemyY, enemyW, enemyH))
 			gameOver = true;
+		if (AABB(playerX, playerY, playerW, playerH, enemyX2, enemyY2, enemyW, enemyH))
+			gameOver = true;
+		if (AABB(laserX, laserY, laserW, laserH, enemyX, enemyY, enemyW, enemyH))
+		{
+			canShoot = true;
+			enemyX = SCREEN_W;
+			enemyY = 1 + rand() % (SCREEN_H - enemyH);
+		}
+		if (AABB(laserX, laserY, laserW, laserH, enemyX2, enemyY2, enemyW, enemyH))
+		{
+			canShoot = true;
+			enemyX2 = 1 + rand() % (SCREEN_W - enemyW);
+			enemyY2 = 0;
+		}
+
 
 
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(50, 75, 0));
+			al_draw_bitmap(player, playerX, playerY, 0);
 			al_draw_bitmap(enemy, enemyX, enemyY, 0);
 			al_draw_bitmap(enemy2, enemyX2, enemyY2, 0);
-			al_draw_bitmap(player, playerX, playerY, 0);
 			if (!canShoot)
 				al_draw_bitmap(laser, laserX, laserY, 0);
 			al_flip_display();
