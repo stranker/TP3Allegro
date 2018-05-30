@@ -12,9 +12,12 @@ int main(int argc, char **argv) {
 
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_BITMAP  *player = NULL;
+	ALLEGRO_BITMAP *enemy = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	int playerX = 200;
 	int playerY = 200;
+	int enemyX = 400;
+	int enemyY = 400;
 	bool keys[4] = { false, false, false, false };
 	bool running = true;
 	
@@ -41,8 +44,10 @@ int main(int argc, char **argv) {
 	}
 
 	player = al_load_bitmap("player.png");
-	al_draw_bitmap(player, playerX, playerY, 0);
-	al_clear_to_color(al_map_rgb(50, 75, 0));
+	enemy = al_load_bitmap("sal.png");
+	al_set_target_bitmap(player);
+	al_set_target_bitmap(enemy);
+	al_set_target_backbuffer(display);
 	
 	
 	if (!player) {
@@ -108,6 +113,7 @@ int main(int argc, char **argv) {
 		playerX -= keys[LEFT] * 10;
 		playerX += keys[RIGHT] *10;
 
+		al_draw_bitmap(enemy, enemyX, enemyY,0);
 		al_draw_bitmap(player, playerX, playerY, 0);
 		al_flip_display();
 	}
@@ -117,6 +123,7 @@ int main(int argc, char **argv) {
 
 	al_destroy_display(display);
 	al_destroy_bitmap(player);
+	al_destroy_bitmap(enemy);
 
 	return 0;
 }
