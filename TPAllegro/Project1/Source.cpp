@@ -19,6 +19,7 @@ int main(int argc, char **argv) {
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_BITMAP  *player = NULL;
 	ALLEGRO_BITMAP *enemy = NULL;
+	ALLEGRO_BITMAP *enemy2 = NULL;
 	ALLEGRO_BITMAP *laser = NULL;
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
@@ -28,6 +29,8 @@ int main(int argc, char **argv) {
 	const int playerH = 100;
 	int enemyX = 400;
 	int enemyY = 400;
+	int enemyX2 = 10;
+	int enemyY2 = 10;
 	const int enemyW = 60;
 	const int enemyH = 96;
 	int laserX;
@@ -78,6 +81,7 @@ int main(int argc, char **argv) {
 
 	player = al_load_bitmap("player.png");
 	enemy = al_load_bitmap("sal.png");
+	enemy2 = al_load_bitmap("sal.png");
 	laser = al_load_bitmap("laser.png");
 	al_set_target_bitmap(player);
 	al_set_target_bitmap(enemy);
@@ -177,6 +181,14 @@ int main(int argc, char **argv) {
 			enemyY = 1 + rand() % (SCREEN_H - enemyH);
 			enemyX = SCREEN_W;
 		}
+
+		enemyY2 += 2;
+		if (enemyY2 > SCREEN_H)
+		{
+			enemyX2 = 1 + rand() % (SCREEN_W - enemyW);
+			enemyY2 = 0;
+		}
+
 		if (AABB(playerX, playerY, playerW, playerH, enemyX, enemyY, enemyW, enemyH))
 			gameOver = true;
 
@@ -185,13 +197,12 @@ int main(int argc, char **argv) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(50, 75, 0));
 			al_draw_bitmap(enemy, enemyX, enemyY, 0);
+			al_draw_bitmap(enemy2, enemyX2, enemyY2, 0);
 			al_draw_bitmap(player, playerX, playerY, 0);
 			if (!canShoot)
 				al_draw_bitmap(laser, laserX, laserY, 0);
 			al_flip_display();
 		}
-
-
 
 		if (!canShoot) {
 			laserX += 6 * laserDirX;
@@ -209,6 +220,7 @@ int main(int argc, char **argv) {
 	al_destroy_display(display);
 	al_destroy_bitmap(player);
 	al_destroy_bitmap(enemy);
+	al_destroy_bitmap(enemy2);
 	al_destroy_bitmap(laser);
 	al_destroy_timer(timer);
 
