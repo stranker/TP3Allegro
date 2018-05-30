@@ -13,13 +13,23 @@ int main(int argc, char **argv) {
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_BITMAP  *player = NULL;
 	ALLEGRO_BITMAP *enemy = NULL;
+	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	int playerX = 200;
 	int playerY = 200;
+	const int playerW = 155;
+	const int playerH = 100;
 	int enemyX = 400;
 	int enemyY = 400;
+	const int enemyW = 60;
+	const int enemyH = 96;
+	const int FPS = 60;
+	const int SCREEN_W = 800;
+	const int SCREEN_H = 600;
+	const int playerSpeed = 4;
 	bool keys[4] = { false, false, false, false };
-	bool running = true;
+	bool redraw = true;
+	bool gameOver = false;
 	
 
 	if (!al_init()) {
@@ -34,7 +44,7 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 
-	display = al_create_display(800, 600);
+	display = al_create_display(SCREEN_W, SCREEN_H);
 	
 
 	if (!display) {
@@ -42,6 +52,12 @@ int main(int argc, char **argv) {
 			NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		return 0;
 	}
+	timer = al_create_timer(1.0 / FPS);
+	if (!timer) {
+		fprintf(stderr, "failed to create timer!\n");
+		return -1;
+	}
+
 
 	player = al_load_bitmap("player.png");
 	enemy = al_load_bitmap("sal.png");
@@ -61,12 +77,20 @@ int main(int argc, char **argv) {
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	al_clear_to_color(al_map_rgb(50, 75, 0));
+	al_flip_display();
+	al_start_timer(timer);
 
-	while (running) {
-		al_clear_to_color(al_map_rgb(50, 75, 0));
+	while (!gameOver) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
-
+		if (ev.type == ALLEGRO_EVENT_TIMER) {
+			redraw = true;
+		}
+		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			gameOver = true;
+		}
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 			switch (ev.keyboard.keycode) {
 			case ALLEGRO_KEY_UP:
@@ -82,7 +106,7 @@ int main(int argc, char **argv) {
 				keys[RIGHT] = true;
 				break;
 			case ALLEGRO_KEY_ESCAPE:
-				running = false;
+				gameOver = true;
 				break;
 			}
 		}
@@ -101,21 +125,27 @@ int main(int argc, char **argv) {
 				keys[RIGHT] = false;
 				break;
 			case ALLEGRO_KEY_ESCAPE:
-				running = false;
+				gameOver = true;
 				break;
 			}
 		}
-		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-			running = false;
+		playerY -= keys[UP] * playerSpeed;
+		playerY += keys[DOWN] * playerSpeed;
+		playerX -= keys[LEFT] * playerSpeed;
+		playerX += keys[RIGHT] * playerSpeed;
+		if (playerX < 0)
+			playerX = 0;
+		else if (playerX > SCREEN_W - )
+		{
 
-		playerY -= keys[UP] * 10;
-		playerY += keys[DOWN] * 10;
-		playerX -= keys[LEFT] * 10;
-		playerX += keys[RIGHT] *10;
-
-		al_draw_bitmap(enemy, enemyX, enemyY,0);
-		al_draw_bitmap(player, playerX, playerY, 0);
-		al_flip_display();
+		}
+		if (redraw && al_is_event_queue_empty(event_queue)) {
+			redraw = false;
+			al_clear_to_color(al_map_rgb(50, 75, 0));
+			al_draw_bitmap(enemy, enemyX, enemyY, 0);
+			al_draw_bitmap(player, playerX, playerY, 0);
+			al_flip_display();
+		}
 	}
 
 	
@@ -124,6 +154,7 @@ int main(int argc, char **argv) {
 	al_destroy_display(display);
 	al_destroy_bitmap(player);
 	al_destroy_bitmap(enemy);
+	al_destroy_timer(timer);
 
 	return 0;
 }
