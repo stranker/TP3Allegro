@@ -42,6 +42,11 @@ int main(int argc, char **argv) {
 	bool redraw = true;
 	bool gameOver = false;
 	bool canShoot = true;
+	int dirX = 1;
+	int dirY = 0;
+	int laserDirX;
+	int laserDirY;
+	bool laserIsOnScreen = false;
 
 
 	if (!al_init()) {
@@ -105,20 +110,29 @@ int main(int argc, char **argv) {
 					laserX = playerX + playerW;
 					laserY = playerY + 5;
 					canShoot = false;
+					laserDirX = dirX;
+					laserDirY = dirY;
 				}
-
 				break;
 			case ALLEGRO_KEY_UP:
 				keys[UP] = true;
+				dirY = -1;
+				dirX = 0;
 				break;
 			case ALLEGRO_KEY_DOWN:
 				keys[DOWN] = true;
+				dirY = 1;
+				dirX = 0;
 				break;
 			case ALLEGRO_KEY_LEFT:
 				keys[LEFT] = true;
+				dirX = -1;
+				dirY = 0;
 				break;
 			case ALLEGRO_KEY_RIGHT:
 				keys[RIGHT] = true;
+				dirX = 1;
+				dirY = 0;
 				break;
 			case ALLEGRO_KEY_ESCAPE:
 				gameOver = true;
@@ -174,8 +188,17 @@ int main(int argc, char **argv) {
 			al_draw_bitmap(player, playerX, playerY, 0);
 			if (!canShoot)
 				al_draw_bitmap(laser, laserX, laserY, 0);
-			
 			al_flip_display();
+		}
+
+
+
+		if (!canShoot) {
+			laserX += 6 * laserDirX;
+			laserY += 6 * laserDirY;
+		}
+		if (laserX > SCREEN_W || laserX < 0 || laserY < 0 || laserY > SCREEN_H) {
+			canShoot = true;
 		}
 
 	}
