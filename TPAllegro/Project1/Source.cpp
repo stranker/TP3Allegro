@@ -148,6 +148,12 @@ int main(int argc, char **argv) {
 			al_draw_bitmap(player, playerX, playerY, 0);
 			al_flip_display();
 		}
+		enemyX -= 2;
+		if (enemyX < -enemyW)
+		{
+			enemyY = 1 + rand() % (SCREEN_H - enemyH);
+			enemyX = SCREEN_W;
+		}
 	}
 
 	
