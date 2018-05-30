@@ -3,6 +3,7 @@
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_native_dialog.h"
+#include "Caracol.h"
 
 using namespace std;
 
@@ -17,19 +18,15 @@ bool AABB(const float x1, const float y1, const float w1, const float h1, const 
 int main(int argc, char **argv) {
 
 	ALLEGRO_DISPLAY *display = NULL;
-	ALLEGRO_BITMAP  *player = NULL;
 	ALLEGRO_BITMAP *enemy = NULL;
 	ALLEGRO_BITMAP *enemy2 = NULL;
 	ALLEGRO_BITMAP *laser = NULL;
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	int playerX = 200;
-	int playerY = 200;
-	const int playerW = 155;
-	const int playerH = 100;
+	Caracol* caracol;
 	int enemyX = 400;
 	int enemyY = 400;
-	int enemyX2 = 10;
+	int enemyX2 = 300;
 	int enemyY2 = 10;
 	const int enemyW = 60;
 	const int enemyH = 96;
@@ -40,16 +37,10 @@ int main(int argc, char **argv) {
 	const int FPS = 60;
 	const int SCREEN_W = 800;
 	const int SCREEN_H = 600;
-	const int playerSpeed = 4;
-	bool keys[4] = { false, false, false, false };
 	bool redraw = true;
 	bool gameOver = false;
-	bool canShoot = true;
-	int dirX = 1;
-	int dirY = 0;
 	int laserDirX;
 	int laserDirY;
-	bool laserIsOnScreen = false;
 
 
 	if (!al_init()) {
@@ -78,12 +69,11 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-
-	player = al_load_bitmap("player.png");
+	caracol = new Caracol(10, 10);
 	enemy = al_load_bitmap("sal.png");
 	enemy2 = al_load_bitmap("sal.png");
 	laser = al_load_bitmap("laser.png");
-	al_set_target_bitmap(player);
+	al_set_target_bitmap(caracol->GetSprite());
 	al_set_target_bitmap(enemy);
 	al_set_target_bitmap(laser);
 	al_set_target_backbuffer(display);
@@ -106,74 +96,8 @@ int main(int argc, char **argv) {
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			gameOver = true;
 		}
-		if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
-			switch (ev.keyboard.keycode) {
-			case ALLEGRO_KEY_SPACE:
-				if (canShoot)
-				{
-					laserX = playerX + playerW;
-					laserY = playerY + 5;
-					canShoot = false;
-					laserDirX = dirX;
-					laserDirY = dirY;
-				}
-				break;
-			case ALLEGRO_KEY_UP:
-				keys[UP] = true;
-				dirY = -1;
-				dirX = 0;
-				break;
-			case ALLEGRO_KEY_DOWN:
-				keys[DOWN] = true;
-				dirY = 1;
-				dirX = 0;
-				break;
-			case ALLEGRO_KEY_LEFT:
-				keys[LEFT] = true;
-				dirX = -1;
-				dirY = 0;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				keys[RIGHT] = true;
-				dirX = 1;
-				dirY = 0;
-				break;
-			case ALLEGRO_KEY_ESCAPE:
-				gameOver = true;
-				break;
-			}
-		}
-		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
-			switch (ev.keyboard.keycode) {
-			case ALLEGRO_KEY_UP:
-				keys[UP] = false;
-				break;
-			case ALLEGRO_KEY_DOWN:
-				keys[DOWN] = false;
-				break;
-			case ALLEGRO_KEY_LEFT:
-				keys[LEFT] = false;
-				break;
-			case ALLEGRO_KEY_RIGHT:
-				keys[RIGHT] = false;
-				break;
-			case ALLEGRO_KEY_ESCAPE:
-				gameOver = true;
-				break;
-			}
-		}
-		playerY -= keys[UP] * playerSpeed;
-		playerY += keys[DOWN] * playerSpeed;
-		playerX -= keys[LEFT] * playerSpeed;
-		playerX += keys[RIGHT] * playerSpeed;
-		if (playerX < 0)
-			playerX = 0;
-		else if (playerX > SCREEN_W - playerW)
-			playerX = SCREEN_W - playerW;
-		if (playerY < 0)
-			playerY = 0;
-		else if (playerY > SCREEN_H - playerH)
-			playerY = SCREEN_H - playerH;
+
+		caracol->Update(ev, SCREEN_W, SCREEN_H);
 
 		enemyX -= 2;
 		if (enemyX < -enemyW)
@@ -189,11 +113,11 @@ int main(int argc, char **argv) {
 			enemyY2 = 0;
 		}
 
-		if (AABB(playerX, playerY, playerW, playerH, enemyX, enemyY, enemyW, enemyH))
+		if (AABB(caracol->GetPosX(), caracol->GetPosY(), caracol->CollisionW(), caracol->CollisionH(), enemyX, enemyY, enemyW, enemyH))
 			gameOver = true;
-		if (AABB(playerX, playerY, playerW, playerH, enemyX2, enemyY2, enemyW, enemyH))
+		if (AABB(caracol->GetPosX(), caracol->GetPosY(), caracol->CollisionW(), caracol->CollisionH(), enemyX2, enemyY2, enemyW, enemyH))
 			gameOver = true;
-		if (AABB(laserX, laserY, laserW, laserH, enemyX, enemyY, enemyW, enemyH))
+		/*if (AABB(laserX, laserY, laserW, laserH, enemyX, enemyY, enemyW, enemyH))
 		{
 			canShoot = true;
 			enemyX = SCREEN_W;
@@ -204,28 +128,28 @@ int main(int argc, char **argv) {
 			canShoot = true;
 			enemyX2 = 1 + rand() % (SCREEN_W - enemyW);
 			enemyY2 = 0;
-		}
+		}*/
 
 
 
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(50, 75, 0));
-			al_draw_bitmap(player, playerX, playerY, 0);
+			caracol->Draw();
 			al_draw_bitmap(enemy, enemyX, enemyY, 0);
 			al_draw_bitmap(enemy2, enemyX2, enemyY2, 0);
-			if (!canShoot)
-				al_draw_bitmap(laser, laserX, laserY, 0);
+			/*if (!canShoot)
+				al_draw_bitmap(laser, laserX, laserY, 0);*/
 			al_flip_display();
 		}
 
-		if (!canShoot) {
+		/*if (!canShoot) {
 			laserX += 6 * laserDirX;
 			laserY += 6 * laserDirY;
 		}
 		if (laserX > SCREEN_W || laserX < 0 || laserY < 0 || laserY > SCREEN_H) {
 			canShoot = true;
-		}
+		}*/
 
 	}
 
@@ -233,11 +157,10 @@ int main(int argc, char **argv) {
 	al_rest(0.1);
 
 	al_destroy_display(display);
-	al_destroy_bitmap(player);
 	al_destroy_bitmap(enemy);
 	al_destroy_bitmap(enemy2);
 	al_destroy_bitmap(laser);
 	al_destroy_timer(timer);
 
 	return 0;
-}
+} 
