@@ -1,0 +1,4 @@
+Gitignore completo (excepto por el punto de abajo)
+Falla el copy de los .dll porque se ignoró en el gitignore la carpeta "bin" de Allegro. Se solucionó agregando de nuevo la carpeta bin.
+Faltó un enemigo y la colision.
+
