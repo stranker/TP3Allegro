@@ -135,10 +135,12 @@ int main(int argc, char **argv) {
 		playerX += keys[RIGHT] * playerSpeed;
 		if (playerX < 0)
 			playerX = 0;
-		else if (playerX > SCREEN_W - )
-		{
-
-		}
+		else if (playerX > SCREEN_W - playerW)
+			playerX = SCREEN_W - playerW;
+		if (playerY < 0)
+			playerY = 0;
+		else if (playerY > SCREEN_H - playerH)
+			playerY = SCREEN_H - playerH;
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(50, 75, 0));
