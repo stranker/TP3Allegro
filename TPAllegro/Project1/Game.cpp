@@ -15,7 +15,7 @@ Game::~Game()
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
 	delete caracol;
-	delete[] saleros;
+	delete saleros;
 }
 
 int Game::Initialize()
@@ -43,15 +43,15 @@ int Game::Initialize()
 	CreateWindow();
 	// SE CREAN PERSONAJES
 	caracol = new Caracol(SCREEN_W/2, SCREEN_H/2, "player.png", 151,100);
-	saleros = new Sal[CANT_SALEROS];
+	saleros = new vector<Sal*>;
 	for (int i = 0; i < CANT_SALEROS; i++)
-		saleros[i].Initialize(SCREEN_W, SCREEN_H);
+		saleros->push_back(new Sal("sal.png", SCREEN_W, SCREEN_H));
 	// SE CREA INPUT
 	EventInit();
 	// SE REGISTRAN IMAGENES Y EVENTOS
 	al_set_target_bitmap(caracol->GetSprite());
 	for (int i = 0; i < CANT_SALEROS; i++)
-		al_set_target_bitmap(saleros[i].GetSprite());
+		al_set_target_bitmap(saleros->at(i)->GetSprite());
 
 	al_set_target_bitmap(al_get_backbuffer(display));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -72,7 +72,7 @@ void Game::Draw()
 		al_clear_to_color(al_map_rgb(50, 75, 0));
 		caracol->Draw();
 		for (int i = 0; i < CANT_SALEROS; i++)
-			saleros[i].Draw();
+			saleros->at(i)->Draw();
 		al_flip_display();
 	}
 }
@@ -90,16 +90,16 @@ void Game::Update()
 	// UPDATE DE LOS PERSONAJES
 	caracol->Update(ev, SCREEN_W, SCREEN_H);
 	for (int i = 0; i < CANT_SALEROS; i++)
-		saleros[i].Update(SCREEN_W, SCREEN_H);
+		saleros->at(i)->Update(SCREEN_W, SCREEN_H);
 	// COLLISION
 	for (int i = 0; i < CANT_SALEROS; i++)
 	{
-		if (Collision::AABB(caracol, &saleros[i]))
+		if (Collision::AABB(caracol, saleros->at(i)))
 			caracol->SetPosition(SCREEN_W / 2, SCREEN_H / 2);
-		if (Collision::AABB(caracol->GetRayo(), &saleros[i]))
+		/*if (Collision::AABB(caracol->GetRayo(), &saleros[i]))
 		{
 			saleros[i].Kill(SCREEN_W,SCREEN_H);
-		}
+		}*/
 	}
 }
 
@@ -108,9 +108,8 @@ int Game::EventInit()
 	event_queue = al_create_event_queue();
 	if (!event_queue) {
 		fprintf(stderr, "failed to create event_queue!\n");
-		al_destroy_bitmap(caracol->GetSprite());
-		for (int i = 0; i < CANT_SALEROS; i++)
-			al_destroy_bitmap(saleros[i].GetSprite());
+		delete caracol;
+		delete saleros;
 		al_destroy_display(display);
 		al_destroy_timer(timer);
 		return -1;

@@ -65,7 +65,7 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 	Move(0, keys[DOWN] * speed);
 	Move(-keys[LEFT] * speed, 0);
 	Move(keys[RIGHT] * speed, 0);
-	Clamp(0, SCREEN_W, 0, SCREEN_H);
+	Clamp(0, SCREEN_W - GetWidth(), 0, SCREEN_H - GetHeight());
 }
 
 void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {

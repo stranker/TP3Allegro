@@ -10,6 +10,7 @@
 #include "Caracol.h"
 #include "Sal.h"
 #include "Collision.h"
+#include <vector>
 
 class Game
 {
@@ -23,7 +24,7 @@ private:
 	int SCREEN_H;
 	int FPS;
 	Caracol* caracol;
-	Sal* saleros;
+	vector<Sal*> *saleros;
 public:
 	Game(int SCREEN_W, int SCREEN_H, int FPS);
 	~Game();
