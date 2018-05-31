@@ -2,17 +2,13 @@
 
 enum KEYS { UP, DOWN, LEFT, RIGHT };
 
-Caracol::Caracol(float posX, float posY)
+Caracol::Caracol(float posX, float posY, const char * imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
-	sprite = al_load_bitmap("player.png");
-	positionX = posX;
-	positionY = posY;
 	rayo = new Rayo(0, 0);
 }
 
 Caracol::~Caracol()
 {
-	al_destroy_bitmap(sprite);
 }
 
 void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
@@ -22,7 +18,7 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 		case ALLEGRO_KEY_SPACE:
 			if (canShoot)
 			{
-				rayo->SetPosition(positionX + spriteW - 5, positionY + 5);
+				rayo->SetPosition(GetPosX() + GetWidth() - 5, GetPosY() + 5);
 				rayo->Shoot(dirX, dirY);
 				canShoot = false;
 			}
@@ -65,18 +61,11 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 			break;
 		}
 	}
-	positionY -= keys[UP] * speed;
-	positionY += keys[DOWN] * speed;
-	positionX -= keys[LEFT] * speed;
-	positionX += keys[RIGHT] * speed;
-	if (positionX < 0)
-		positionX = 0;
-	else if (positionX > SCREEN_W - spriteW)
-		positionX = SCREEN_W - spriteW;
-	if (positionY < 0)
-		positionY = 0;
-	else if (positionY > SCREEN_H - spriteH)
-		positionY = SCREEN_H - spriteH;
+	Move(0, -keys[UP] * speed);
+	Move(0, keys[DOWN] * speed);
+	Move(-keys[LEFT] * speed, 0);
+	Move(keys[RIGHT] * speed, 0);
+	Clamp(0, SCREEN_W, 0, SCREEN_H);
 }
 
 void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {
@@ -84,49 +73,6 @@ void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {
 	rayo->Update(SCREEN_W, SCREEN_H);
 	if (!rayo->GetActivated())
 		canShoot = true;
-}
-
-void Caracol::Draw()
-{
-	al_draw_bitmap(sprite, positionX, positionY, 0);
-	rayo->Draw();
-}
-
-ALLEGRO_BITMAP* Caracol::GetSprite() const
-{
-	return sprite;
-}
-
-float Caracol::GetPosX() const
-{
-	return positionX;
-}
-
-float Caracol::GetPosY() const
-{
-	return positionY;
-}
-
-float Caracol::CollisionW() const
-{
-	return spriteW;
-}
-
-float Caracol::CollisionH() const
-{
-	return spriteH;
-}
-
-void Caracol::Move(float x, float y)
-{
-	positionX += x;
-	positionY += y;
-}
-
-void Caracol::SetPosition(float x, float y)
-{
-	positionX = x;
-	positionY = y;
 }
 
 Rayo * Caracol::GetRayo() const
