@@ -120,3 +120,9 @@ void Caracol::Move(float x, float y)
 	positionX += x;
 	positionY += y;
 }
+
+void Caracol::SetPosition(float x, float y)
+{
+	positionX = x;
+	positionY = y;
+}
