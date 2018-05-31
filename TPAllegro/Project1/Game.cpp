@@ -91,15 +91,10 @@ void Game::Update()
 	caracol->Update(ev, SCREEN_W, SCREEN_H);
 	for (int i = 0; i < CANT_SALEROS; i++)
 		saleros[i].Update(SCREEN_W, SCREEN_H);
-	// COLLISION PERSONAJES
-	/*if (Collision::AABB(mario, goomba))
-		gameOver = true;
-	if (Collision::AABB(mario, m0))
-		m0->Take();
-	if (Collision::AABB(mario, m1))
-		m1->Take();
-	if (Collision::AABB(mario, m2))
-		m2->Take();*/
+	// COLLISION
+	for (int i = 0; i < CANT_SALEROS; i++)
+		if (Collision::AABB(caracol, &saleros[i]))
+			caracol->SetPosition(SCREEN_W / 2, SCREEN_H / 2);
 }
 
 int Game::EventInit()

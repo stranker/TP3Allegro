@@ -9,6 +9,7 @@
 #include <allegro5/allegro_native_dialog.h>
 #include "Caracol.h"
 #include "Sal.h"
+#include "Collision.h"
 
 class Game
 {
