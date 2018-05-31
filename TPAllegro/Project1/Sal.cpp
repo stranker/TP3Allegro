@@ -1,58 +1,58 @@
 #include "Sal.h"
 
-Sal::Sal()
+Sal::Sal(const char *imageFile, int SCREEN_W, int SCREEN_H) : Sprite (0,0,imageFile,60,96)
 {
-	sprite = al_load_bitmap("sal.png");
+	Initialize(SCREEN_W,SCREEN_H);
 }
 
-Sal::Sal(float posX, float posY, bool latMovement)
+Sal::Sal(float posX, float posY, const char * imageFile, int w, int h, bool latMov) : Sprite(posX, posY, imageFile, w, h)
 {
-	sprite = al_load_bitmap("sal.png");
-	positionX = posX;
-	positionY = posY;
-	lateralMovement = latMovement;
+	lateralMovement = latMov;
 }
 
 Sal::~Sal()
 {
-	al_destroy_bitmap(sprite);
 }
 
 void Sal::Movimiento(int SCREEN_W, int SCREEN_H)
 {
 	if (lateralMovement)
 	{
-		if (positionX < -spriteW || positionX > SCREEN_W)
+		if (GetPosX() < -GetWidth() || GetPosX() > SCREEN_W)
 		{
-			positionY = 1 + rand() % (SCREEN_H - spriteH);
+			int posY = rand() % (int) (SCREEN_H - GetHeight());
+			int posX;
 			if (rand() % 100 > 50)
 			{
-				positionX = SCREEN_W;
+				posX = SCREEN_W;
 				dir = -1;
 			}
 			else
 			{
-				positionX = 0 - spriteW;
+				posX = 0 - GetWidth();
 				dir = 1;
 			}
+			SetPosition(posX, posY);
 		}
 		Move(speed * dir, 0);
 	}
 	else
 	{
-		if (positionY > SCREEN_H || positionY < -spriteH)
+		if (GetPosY() > SCREEN_H || GetPosY() < -GetHeight())
 		{
-			positionX = 1 + rand() % (SCREEN_W - spriteW);
+			int posY;
+			int posX = 1 + rand() % (int)(SCREEN_W - GetWidth());
 			if (rand() % 100 > 50)
 			{
-				positionY = SCREEN_H;
+				posY = SCREEN_H;
 				dir = -1;
 			}
 			else
 			{
-				positionY = 0 - spriteH;
+				posY = 0 - GetHeight();
 				dir = 1;
 			}
+			SetPosition(posX, posY);
 		}
 		Move(0, speed * dir);
 	}
@@ -60,8 +60,29 @@ void Sal::Movimiento(int SCREEN_W, int SCREEN_H)
 
 void Sal::Initialize(int SCREEN_W, int SCREEN_H)
 {
-	positionX = rand() % SCREEN_W - spriteW;
-	positionY = rand() % SCREEN_H - spriteH;
+	int posX;
+	int posY;
+	switch (rand() % 4)
+	{
+	case 0:
+		posX = 0;
+		posY = 0;
+		break;
+	case 1:
+		posX = SCREEN_W;
+		posY = 0;
+		break;
+	case 2:
+		posX = 0;
+		posY = SCREEN_H;
+		break;
+	case 3:
+		posX = SCREEN_W;
+		posY = SCREEN_H;
+		break;
+	default:
+		break;
+	}
 	if (rand() % 100 > 50)
 	{
 		dir = 1;
@@ -69,6 +90,7 @@ void Sal::Initialize(int SCREEN_W, int SCREEN_H)
 	}
 	else
 		dir = -1;
+	SetPosition(posX, posY);
 }
 
 void Sal::Update(int SCREEN_W, int SCREEN_H)
@@ -76,48 +98,7 @@ void Sal::Update(int SCREEN_W, int SCREEN_H)
 	Movimiento(SCREEN_W, SCREEN_H);
 }
 
-void Sal::Draw()
-{
-	al_draw_bitmap(sprite, positionX, positionY, 0);
-}
-
-ALLEGRO_BITMAP * Sal::GetSprite() const
-{
-	return sprite;
-}
-
-float Sal::GetPosX() const
-{
-	return positionX;
-}
-
-float Sal::GetPosY() const
-{
-	return positionY;
-}
-
-float Sal::CollisionW() const
-{
-	return spriteW;
-}
-
-float Sal::CollisionH() const
-{
-	return spriteH;
-}
-
-void Sal::Move(float x, float y)
-{
-	positionX += x;
-	positionY += y;
-}
-
 void Sal::Kill(int SCREEN_W, int SCREEN_H)
 {
-	positionX = -spriteW;
-	positionY = -spriteH;
-	if (rand() % 100 > 50)
-		dir = 1;
-	else
-		dir = -1;
+	Initialize(SCREEN_W, SCREEN_H);
 }

@@ -42,7 +42,7 @@ int Game::Initialize()
 	// SE CREA LA VENTANA
 	CreateWindow();
 	// SE CREAN PERSONAJES
-	caracol = new Caracol(SCREEN_W/2, SCREEN_H/2);
+	caracol = new Caracol(SCREEN_W/2, SCREEN_H/2, "player.png", 151,100);
 	saleros = new Sal[CANT_SALEROS];
 	for (int i = 0; i < CANT_SALEROS; i++)
 		saleros[i].Initialize(SCREEN_W, SCREEN_H);
