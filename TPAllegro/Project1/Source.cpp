@@ -11,11 +11,6 @@ int main(int argc, char **argv) {
 	srand(time(NULL));
 	ALLEGRO_BITMAP *laser = NULL;
 	Game* game = new Game(800, 600, 60);
-	int laserX;
-	int laserY;
-	const int laserW = 40;
-	const int laserH = 8;
-
 	while (!game->IsGameOver()) 
 	{
 		game->Update();
