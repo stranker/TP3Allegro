@@ -9,7 +9,6 @@ Caracol::Caracol(float posX, float posY)
 	positionY = posY;
 }
 
-
 Caracol::~Caracol()
 {
 	al_destroy_bitmap(sprite);

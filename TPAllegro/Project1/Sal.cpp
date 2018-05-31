@@ -1,5 +1,10 @@
 #include "Sal.h"
 
+Sal::Sal()
+{
+	sprite = al_load_bitmap("sal.png");
+}
+
 Sal::Sal(float posX, float posY, bool latMovement)
 {
 	sprite = al_load_bitmap("sal.png");
@@ -51,6 +56,19 @@ void Sal::Movimiento(int SCREEN_W, int SCREEN_H)
 		}
 		Move(0, speed * dir);
 	}
+}
+
+void Sal::Initialize(int SCREEN_W, int SCREEN_H)
+{
+	positionX = rand() % SCREEN_W - spriteW;
+	positionY = rand() % SCREEN_H - spriteH;
+	if (rand() % 100 > 50)
+	{
+		dir = 1;
+		lateralMovement = true;
+	}
+	else
+		dir = -1;
 }
 
 void Sal::Update(int SCREEN_W, int SCREEN_H)
