@@ -93,8 +93,14 @@ void Game::Update()
 		saleros[i].Update(SCREEN_W, SCREEN_H);
 	// COLLISION
 	for (int i = 0; i < CANT_SALEROS; i++)
+	{
 		if (Collision::AABB(caracol, &saleros[i]))
 			caracol->SetPosition(SCREEN_W / 2, SCREEN_H / 2);
+		if (Collision::AABB(caracol->GetRayo(), &saleros[i]))
+		{
+			saleros[i].Kill(SCREEN_W,SCREEN_H);
+		}
+	}
 }
 
 int Game::EventInit()

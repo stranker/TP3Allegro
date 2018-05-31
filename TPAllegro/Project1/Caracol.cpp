@@ -7,6 +7,7 @@ Caracol::Caracol(float posX, float posY)
 	sprite = al_load_bitmap("player.png");
 	positionX = posX;
 	positionY = posY;
+	rayo = new Rayo(0, 0);
 }
 
 Caracol::~Caracol()
@@ -21,12 +22,9 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 		case ALLEGRO_KEY_SPACE:
 			if (canShoot)
 			{
-				/*
-				laserX = playerX + playerW;
-				laserY = playerY + 5;
+				rayo->SetPosition(positionX + spriteW - 5, positionY + 5);
+				rayo->Shoot(dirX, dirY);
 				canShoot = false;
-				laserDirX = dirX;
-				laserDirY = dirY;*/
 			}
 			break;
 		case ALLEGRO_KEY_UP:
@@ -83,11 +81,15 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 
 void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {
 	Movimiento(ev, SCREEN_W, SCREEN_H);
+	rayo->Update(SCREEN_W, SCREEN_H);
+	if (!rayo->GetActivated())
+		canShoot = true;
 }
 
 void Caracol::Draw()
 {
 	al_draw_bitmap(sprite, positionX, positionY, 0);
+	rayo->Draw();
 }
 
 ALLEGRO_BITMAP* Caracol::GetSprite() const
@@ -125,4 +127,9 @@ void Caracol::SetPosition(float x, float y)
 {
 	positionX = x;
 	positionY = y;
+}
+
+Rayo * Caracol::GetRayo() const
+{
+	return rayo;
 }

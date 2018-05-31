@@ -30,6 +30,7 @@ public:
 	float CollisionW() const;
 	float CollisionH() const;
 	void Move(float x, float y);
+	void Kill(int SCREEN_W, int SCREEN_H);
 };
 
 #endif // ! SAL_H

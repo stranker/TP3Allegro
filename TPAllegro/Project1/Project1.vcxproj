@@ -165,6 +165,7 @@ copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro-debug-5.1.dll" "
     <ClCompile Include="Caracol.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Rayo.cpp" />
     <ClCompile Include="Sal.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -172,6 +173,7 @@ copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro-debug-5.1.dll" "
     <ClInclude Include="Caracol.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Rayo.h" />
     <ClInclude Include="Sal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

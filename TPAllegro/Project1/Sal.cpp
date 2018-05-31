@@ -111,3 +111,13 @@ void Sal::Move(float x, float y)
 	positionX += x;
 	positionY += y;
 }
+
+void Sal::Kill(int SCREEN_W, int SCREEN_H)
+{
+	positionX = -spriteW;
+	positionY = -spriteH;
+	if (rand() % 100 > 50)
+		dir = 1;
+	else
+		dir = -1;
+}

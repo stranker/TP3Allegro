@@ -15,6 +15,7 @@ class Rayo {
 	int dirX;
 	int dirY;
 	const int speed = 5;
+	bool isActivated = false;
 public:
 	Rayo(float posX, float posY);
 	~Rayo();
@@ -28,6 +29,8 @@ public:
 	float CollisionH() const;
 	void Move(float x, float y);
 	void SetPosition(float x, float y);
+	void Shoot(float dirX, float dirY);
+	bool GetActivated() const;
 };
 #endif
 
