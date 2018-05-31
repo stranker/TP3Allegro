@@ -1,15 +1,12 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include "Caracol.h"
-#include "Sal.h"
-#include "Rayo.h"
+#include "Sprite.h"
 
 class Collision
 {
 public:
-	static bool AABB(Caracol* c, Sal* s);
-	static bool AABB(Rayo* r, Sal* s);
+	static bool AABB(Sprite* c, Sprite* s);
 };
 
 #endif // !COLLISION_H
