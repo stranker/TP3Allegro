@@ -163,10 +163,12 @@ copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro-debug-5.1.dll" "
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Caracol.cpp" />
+    <ClCompile Include="Sal.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Caracol.h" />
+    <ClInclude Include="Sal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,7 @@
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_native_dialog.h"
 #include "Caracol.h"
+#include "Sal.h"
 
 using namespace std;
 
@@ -18,18 +19,11 @@ bool AABB(const float x1, const float y1, const float w1, const float h1, const 
 int main(int argc, char **argv) {
 
 	ALLEGRO_DISPLAY *display = NULL;
-	ALLEGRO_BITMAP *enemy = NULL;
-	ALLEGRO_BITMAP *enemy2 = NULL;
 	ALLEGRO_BITMAP *laser = NULL;
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	Caracol* caracol;
-	int enemyX = 400;
-	int enemyY = 400;
-	int enemyX2 = 300;
-	int enemyY2 = 10;
-	const int enemyW = 60;
-	const int enemyH = 96;
+	Sal* sal1, *sal2;
 	int laserX;
 	int laserY;
 	const int laserW = 40;
@@ -70,11 +64,12 @@ int main(int argc, char **argv) {
 	}
 
 	caracol = new Caracol(10, 10);
-	enemy = al_load_bitmap("sal.png");
-	enemy2 = al_load_bitmap("sal.png");
+	sal1 = new Sal(300, 0, false);
+	sal2 = new Sal(400, 0, true);
 	laser = al_load_bitmap("laser.png");
 	al_set_target_bitmap(caracol->GetSprite());
-	al_set_target_bitmap(enemy);
+	al_set_target_bitmap(sal1->GetSprite());
+	al_set_target_bitmap(sal2->GetSprite());
 	al_set_target_bitmap(laser);
 	al_set_target_backbuffer(display);
 
@@ -98,24 +93,13 @@ int main(int argc, char **argv) {
 		}
 
 		caracol->Update(ev, SCREEN_W, SCREEN_H);
+		sal1->Update(SCREEN_W, SCREEN_H);
+		sal2->Update(SCREEN_W, SCREEN_H);
 
-		enemyX -= 2;
-		if (enemyX < -enemyW)
-		{
-			enemyY = 1 + rand() % (SCREEN_H - enemyH);
-			enemyX = SCREEN_W;
-		}
 
-		enemyY2 += 2;
-		if (enemyY2 > SCREEN_H)
-		{
-			enemyX2 = 1 + rand() % (SCREEN_W - enemyW);
-			enemyY2 = 0;
-		}
-
-		if (AABB(caracol->GetPosX(), caracol->GetPosY(), caracol->CollisionW(), caracol->CollisionH(), enemyX, enemyY, enemyW, enemyH))
+		if (AABB(caracol->GetPosX(), caracol->GetPosY(), caracol->CollisionW(), caracol->CollisionH(), sal1->GetPosX(), sal1->GetPosY(), sal1->CollisionW(), sal1->CollisionH()))
 			gameOver = true;
-		if (AABB(caracol->GetPosX(), caracol->GetPosY(), caracol->CollisionW(), caracol->CollisionH(), enemyX2, enemyY2, enemyW, enemyH))
+		if (AABB(caracol->GetPosX(), caracol->GetPosY(), caracol->CollisionW(), caracol->CollisionH(), sal2->GetPosX(), sal2->GetPosY(), sal2->CollisionW(), sal2->CollisionH()))
 			gameOver = true;
 		/*if (AABB(laserX, laserY, laserW, laserH, enemyX, enemyY, enemyW, enemyH))
 		{
@@ -136,8 +120,8 @@ int main(int argc, char **argv) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(50, 75, 0));
 			caracol->Draw();
-			al_draw_bitmap(enemy, enemyX, enemyY, 0);
-			al_draw_bitmap(enemy2, enemyX2, enemyY2, 0);
+			sal1->Draw();
+			sal2->Draw();
 			/*if (!canShoot)
 				al_draw_bitmap(laser, laserX, laserY, 0);*/
 			al_flip_display();
@@ -157,8 +141,6 @@ int main(int argc, char **argv) {
 	al_rest(0.1);
 
 	al_destroy_display(display);
-	al_destroy_bitmap(enemy);
-	al_destroy_bitmap(enemy2);
 	al_destroy_bitmap(laser);
 	al_destroy_timer(timer);
 
