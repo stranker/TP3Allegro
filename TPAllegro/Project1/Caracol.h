@@ -1,9 +1,7 @@
 #ifndef CARACOL_H
 #define CARACOL_H
-
 #include "Rayo.h"
 #include "Sprite.h"
-
 
 class Caracol : public Sprite
 {
@@ -14,6 +12,7 @@ private:
 	const int speed = 3;
 	bool canShoot = true;
 	Rayo* rayo;
+
 public:
 	Caracol(float posX, float posY, const char* imageFile, int w, int h);
 	~Caracol();

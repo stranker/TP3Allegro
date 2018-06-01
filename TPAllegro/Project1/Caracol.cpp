@@ -27,12 +27,10 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 		case ALLEGRO_KEY_UP:
 			keys[UP] = true;
 			dirY = -1;
-			dirX = 0;
 			break;
 		case ALLEGRO_KEY_DOWN:
 			keys[DOWN] = true;
 			dirY = 1;
-			dirX = 0;
 			break;
 		case ALLEGRO_KEY_LEFT:
 			keys[LEFT] = true;
