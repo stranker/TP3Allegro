@@ -50,9 +50,9 @@ int Game::Initialize()
 	EventInit();
 	// SE REGISTRAN IMAGENES Y EVENTOS
 	al_set_target_bitmap(caracol->GetSprite());
+	al_set_target_bitmap(caracol->GetRayo()->GetSprite());
 	for (int i = 0; i < CANT_SALEROS; i++)
 		al_set_target_bitmap(saleros->at(i)->GetSprite());
-
 	al_set_target_bitmap(al_get_backbuffer(display));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -63,19 +63,6 @@ int Game::Initialize()
 	al_start_timer(timer);
 
 	return 0;
-}
-
-void Game::Draw()
-{
-	if (redraw && al_is_event_queue_empty(event_queue)) {
-		redraw = false;
-		al_clear_to_color(al_map_rgb(50, 75, 0));
-		caracol->Draw();
-		caracol->GetRayo()->Draw();
-		for (int i = 0; i < CANT_SALEROS; i++)
-			saleros->at(i)->Draw();
-		al_flip_display();
-	}
 }
 
 void Game::Update()
@@ -100,7 +87,25 @@ void Game::Update()
 		if (Collision::AABB(caracol->GetRayo(), saleros->at(i)))
 		{
 			saleros->at(i)->Kill(SCREEN_W,SCREEN_H);
+			caracol->GetRayo()->SetActivated(false);
 		}
+	}
+}
+
+void Game::Draw()
+{
+	if (redraw && al_is_event_queue_empty(event_queue)) {
+		redraw = false;
+		al_clear_to_color(al_map_rgb(50, 75, 0));
+		if (caracol->GetDirX() < 0)
+			caracol->Draw(true);
+		else
+			caracol->Draw(false);
+		if (caracol->GetRayo()->GetActivated())
+			caracol->GetRayo()->Draw(false);
+		for (int i = 0; i < CANT_SALEROS; i++)
+			saleros->at(i)->Draw(false);
+		al_flip_display();
 	}
 }
 

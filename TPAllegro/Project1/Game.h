@@ -4,9 +4,6 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_native_dialog.h>
 #include "Caracol.h"
 #include "Sal.h"
 #include "Collision.h"
