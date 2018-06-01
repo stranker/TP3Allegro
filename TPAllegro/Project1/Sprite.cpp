@@ -14,9 +14,13 @@ Sprite::~Sprite()
 	al_destroy_bitmap(sprite);
 }
 
-void Sprite::Draw()
+void Sprite::Draw(bool flipH)
 {
-	al_draw_bitmap(sprite, positionX, positionY, 0);
+	if(flipH)
+		al_draw_bitmap(sprite, positionX, positionY, ALLEGRO_FLIP_HORIZONTAL);
+	else
+		al_draw_bitmap(sprite, positionX, positionY, 0);
+
 }
 
 ALLEGRO_BITMAP * Sprite::GetSprite() const

@@ -24,7 +24,7 @@ public:
 	float GetWidth() const;
 	float GetHeight() const;
 	ALLEGRO_BITMAP* GetSprite() const;
-	void Draw();
+	void Draw(bool flipH);
 	void Move(float x, float y);
 	void SetPosition(float x, float y);
 	void Clamp(int xIni, int xFin, int yIni, int yFin);
