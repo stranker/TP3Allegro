@@ -6,8 +6,6 @@
 class Sal : public Sprite
 {
 private:
-	//const int spriteW = 60;
-	//const int spriteH = 96;
 	bool lateralMovement = false;
 	const int speed = 2;
 	int dir = 1;

@@ -4,7 +4,7 @@ enum KEYS { UP, DOWN, LEFT, RIGHT };
 
 Caracol::Caracol(float posX, float posY, const char * imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
-	rayo = new Rayo(0, 0);
+	rayo = new Rayo(GetPosX(), GetPosY(), "rayo.png",40,8);
 }
 
 Caracol::~Caracol()

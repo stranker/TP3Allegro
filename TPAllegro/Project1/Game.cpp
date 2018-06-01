@@ -71,6 +71,7 @@ void Game::Draw()
 		redraw = false;
 		al_clear_to_color(al_map_rgb(50, 75, 0));
 		caracol->Draw();
+		caracol->GetRayo()->Draw();
 		for (int i = 0; i < CANT_SALEROS; i++)
 			saleros->at(i)->Draw();
 		al_flip_display();
@@ -96,10 +97,10 @@ void Game::Update()
 	{
 		if (Collision::AABB(caracol, saleros->at(i)))
 			caracol->SetPosition(SCREEN_W / 2, SCREEN_H / 2);
-		/*if (Collision::AABB(caracol->GetRayo(), &saleros[i]))
+		if (Collision::AABB(caracol->GetRayo(), saleros->at(i)))
 		{
-			saleros[i].Kill(SCREEN_W,SCREEN_H);
-		}*/
+			saleros->at(i)->Kill(SCREEN_W,SCREEN_H);
+		}
 	}
 }
 
