@@ -4,7 +4,7 @@ enum KEYS { UP, DOWN, LEFT, RIGHT };
 
 Caracol::Caracol(float posX, float posY, const char * imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
-	rayo = new Rayo(GetPosX(), GetPosY(), "rayo.png",40,8);
+	rayo = new Rayo(posX, posY, "laser.png", 32, 32);
 }
 
 Caracol::~Caracol()
@@ -16,10 +16,11 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 	if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 		switch (ev.keyboard.keycode) {
 		case ALLEGRO_KEY_SPACE:
-			if (canShoot)
-			{
-				rayo->SetPosition(GetPosX() + GetWidth() - 5, GetPosY() + 5);
-				rayo->Shoot(dirX, dirY);
+			if (canShoot) {
+				if (dirX == -1)
+					rayo->Shoot(GetPosX(), GetPosY() + 10, dirX, dirY);
+				else
+					rayo->Shoot(GetPosX() + GetWidth(),GetPosY() + 10,dirX, dirY);
 				canShoot = false;
 			}
 			break;
@@ -70,9 +71,30 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 
 void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {
 	Movimiento(ev, SCREEN_W, SCREEN_H);
-	rayo->Update(SCREEN_W, SCREEN_H);
-	if (!rayo->GetActivated())
+	if (rayo->GetActivated())
+		rayo->Update(SCREEN_W, SCREEN_H);
+	else
 		canShoot = true;
+}
+
+void Caracol::SetCanShoot(bool val)
+{
+	canShoot = val;
+}
+
+bool Caracol::GetCanShoot() const
+{
+	return canShoot;
+}
+
+int Caracol::GetDirX() const
+{
+	return dirX;
+}
+
+int Caracol::GetDirY() const
+{
+	return dirY;
 }
 
 Rayo * Caracol::GetRayo() const
