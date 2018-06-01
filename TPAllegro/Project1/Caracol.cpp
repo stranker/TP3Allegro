@@ -17,10 +17,16 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 		switch (ev.keyboard.keycode) {
 		case ALLEGRO_KEY_SPACE:
 			if (canShoot) {
-				if (dirX == -1)
-					rayo->Shoot(GetPosX(), GetPosY() + 10, dirX, dirY);
+				if (dirY != 0)
+					if (dirX == -1)
+						rayo->Shoot(GetPosX(), GetPosY() + 10, 0, dirY);
+					else
+						rayo->Shoot(GetPosX() + GetWidth(), GetPosY() + 10, 0, dirY);
 				else
-					rayo->Shoot(GetPosX() + GetWidth(),GetPosY() + 10,dirX, dirY);
+					if (dirX == -1)
+						rayo->Shoot(GetPosX(), GetPosY() + 10, dirX, dirY);
+					else
+						rayo->Shoot(GetPosX() + GetWidth(),GetPosY() + 10,dirX, dirY);
 				canShoot = false;
 			}
 			break;
