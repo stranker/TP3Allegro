@@ -14,8 +14,9 @@ public:
 	~Rayo();
 	void Movimiento(int SCREEN_W, int SCREEN_H);
 	void Update(int SCREEN_W, int SCREEN_H);
-	void Shoot(float dirX, float dirY);
+	void Shoot(float posX, float posY, float dirX, float dirY);
 	bool GetActivated() const;
+	void SetActivated(bool val);
 };
 #endif
 

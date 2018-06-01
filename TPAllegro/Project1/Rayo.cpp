@@ -1,6 +1,5 @@
 #include "Rayo.h"
 
-
 Rayo::Rayo(float posX, float posY, const char* imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
 }
@@ -22,8 +21,9 @@ void Rayo::Update(int SCREEN_W, int SCREEN_H)
 	Movimiento(SCREEN_W, SCREEN_H);
 }
 
-void Rayo::Shoot(float _dirX, float _dirY)
+void Rayo::Shoot(float posX, float posY, float _dirX, float _dirY)
 {
+	SetPosition(posX, posY);
 	dirX = _dirX;
 	dirY = _dirY;
 	isActivated = true;
@@ -32,4 +32,9 @@ void Rayo::Shoot(float _dirX, float _dirY)
 bool Rayo::GetActivated() const
 {
 	return isActivated;
+}
+
+void Rayo::SetActivated(bool val)
+{
+	isActivated = val;
 }
