@@ -14,7 +14,7 @@ Sprite::~Sprite()
 	al_destroy_bitmap(sprite);
 }
 
-void Sprite::Draw(bool flipH)
+void Sprite::Draw()
 {
 	if(flipH)
 		al_draw_bitmap(sprite, positionX, positionY, ALLEGRO_FLIP_HORIZONTAL);
@@ -70,5 +70,15 @@ void Sprite::Clamp(int xIni, int xFin, int yIni, int yFin)
 		positionY = yIni;
 	else if (positionY > yFin)
 		positionY = yFin;
+}
+
+void Sprite::FlipH(bool val)
+{
+	flipH = val;
+}
+
+void Sprite::ChangeSprite(const char * file)
+{
+	sprite = al_load_bitmap(file);
 }
 

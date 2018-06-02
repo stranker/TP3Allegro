@@ -16,6 +16,7 @@ private:
 	float positionY;
 	int spriteW;
 	int spriteH;
+	bool flipH = false;
 public:
 	Sprite(float posX, float posY, const char* fileLoc, int w, int h);
 	~Sprite();
@@ -24,10 +25,12 @@ public:
 	float GetWidth() const;
 	float GetHeight() const;
 	ALLEGRO_BITMAP* GetSprite() const;
-	void Draw(bool flipH);
+	void Draw();
 	void Move(float x, float y);
 	void SetPosition(float x, float y);
 	void Clamp(int xIni, int xFin, int yIni, int yFin);
+	void FlipH(bool val);
+	void ChangeSprite(const char* file);
 };
 
 #endif
