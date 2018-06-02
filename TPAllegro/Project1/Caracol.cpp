@@ -2,6 +2,11 @@
 
 enum KEYS { UP, DOWN, LEFT, RIGHT };
 
+Caracol::Caracol(float posX, float posY) : Sprite(posX, posY, "player.png", 78, 50)
+{
+	rayo = new Rayo(posX, posY, "laser.png", 32, 32);
+}
+
 Caracol::Caracol(float posX, float posY, const char * imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
 	rayo = new Rayo(posX, posY, "laser.png", 32, 32);
@@ -18,35 +23,41 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 		case ALLEGRO_KEY_SPACE:
 			if (canShoot) {
 				if (dirY != 0)
-					if (dirX == -1)
-						rayo->Shoot(GetPosX(), GetPosY() + 10, 0, dirY);
+					if (dirY == -1)
+						rayo->Shoot(GetPosX() + GetHeight() / 2, GetPosY(), 0, dirY);
 					else
-						rayo->Shoot(GetPosX() + GetWidth(), GetPosY() + 10, 0, dirY);
+						rayo->Shoot(GetPosX() + GetHeight() / 2, GetPosY() + GetWidth(), 0, dirY);
 				else
 					if (dirX == -1)
-						rayo->Shoot(GetPosX(), GetPosY() + 10, dirX, dirY);
+						rayo->Shoot(GetPosX(), GetPosY() + 10, dirX, 0);
 					else
-						rayo->Shoot(GetPosX() + GetWidth(),GetPosY() + 10,dirX, dirY);
+						rayo->Shoot(GetPosX() + GetWidth(),GetPosY() + 10,dirX, 0);
 				canShoot = false;
 			}
 			break;
 		case ALLEGRO_KEY_UP:
 			keys[UP] = true;
 			dirY = -1;
+			ChangeSprite("playerUp.png");
 			break;
 		case ALLEGRO_KEY_DOWN:
 			keys[DOWN] = true;
 			dirY = 1;
+			ChangeSprite("playerDown.png");
 			break;
 		case ALLEGRO_KEY_LEFT:
 			keys[LEFT] = true;
+			FlipH(true);
 			dirX = -1;
 			dirY = 0;
+			ChangeSprite("player.png");
 			break;
 		case ALLEGRO_KEY_RIGHT:
 			keys[RIGHT] = true;
-			dirX = 1;
+			FlipH(false);
 			dirY = 0;
+			dirX = 1;
+			ChangeSprite("player.png");
 			break;
 		}
 	}
@@ -70,7 +81,7 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 	Move(0, keys[DOWN] * speed);
 	Move(-keys[LEFT] * speed, 0);
 	Move(keys[RIGHT] * speed, 0);
-	Clamp(0, SCREEN_W - GetWidth(), 0, SCREEN_H - GetHeight());
+	Clamp(0, SCREEN_W - GetWidth(), 0, SCREEN_H - GetHeight());		
 }
 
 void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {
@@ -104,4 +115,14 @@ int Caracol::GetDirY() const
 Rayo * Caracol::GetRayo() const
 {
 	return rayo;
+}
+
+void Caracol::TakeDamage()
+{
+	vidas--;
+}
+
+bool Caracol::isAlive()
+{
+	return vidas <= 0;
 }

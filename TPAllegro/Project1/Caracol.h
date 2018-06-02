@@ -12,8 +12,9 @@ private:
 	const int speed = 3;
 	bool canShoot = true;
 	Rayo* rayo;
-
+	int vidas = 3;
 public:
+	Caracol(float posX, float posY);
 	Caracol(float posX, float posY, const char* imageFile, int w, int h);
 	~Caracol();
 	void Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H);
@@ -23,6 +24,8 @@ public:
 	int GetDirX() const;
 	int GetDirY() const;
 	Rayo* GetRayo() const;
+	void TakeDamage();
+	bool isAlive();
 };
 
 #endif
