@@ -35,13 +35,13 @@ void Tortuga::Initialize(int SCREEN_W, int SCREEN_H)
 	if (rand() % 100 > 50)
 	{
 		dir = 1;
-		SetPosition(0, rand() % SCREEN_H);
+		SetPosition(0 - GetWidth(), rand() % (int)(SCREEN_H - GetHeight()));
 		FlipH(true);
 	}
 	else
 	{
 		dir = -1;
-		SetPosition(SCREEN_W, rand() % SCREEN_H);
+		SetPosition(SCREEN_W, rand() % (int)(SCREEN_H - GetHeight()));
 		FlipH(false);
 	}
 }
