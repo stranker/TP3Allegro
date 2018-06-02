@@ -9,6 +9,7 @@
 #include "Sal.h"
 #include "Collision.h"
 #include "Tortuga.h"
+#include "Hormiguero.h"
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <vector>
@@ -25,6 +26,7 @@ private:
 	vector<Sal*> *saleros;
 	vector<Tortuga*> *tortugas;
 	vector<Sprite*> *lives;
+	Hormiguero* hormiguero;
 	ALLEGRO_SAMPLE *music = NULL, *titleSound = NULL, *gameOverSound = NULL;
 	bool redraw = true;
 	bool gameOver = false;

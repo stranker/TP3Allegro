@@ -18,6 +18,7 @@ Game::~Game()
 	delete saleros;
 	delete tortugas;
 	delete lives;
+	delete hormiguero;
 	al_destroy_font(menuFont);
 	al_destroy_font(titleFont);
 	al_destroy_sample(music);
@@ -78,6 +79,7 @@ int Game::Initialize()
 	saleros = new vector<Sal*>;
 	tortugas = new vector<Tortuga*>;
 	lives = new vector<Sprite*>;
+	hormiguero = new Hormiguero(SCREEN_W,SCREEN_H);
 	for (int i = 0; i < CANT_SALEROS; i++)
 		saleros->push_back(new Sal(SCREEN_W, SCREEN_H));
 	for (int i = 0; i < CANT_TORTUGAS; i++)
@@ -94,7 +96,8 @@ int Game::Initialize()
 	for (int i = 0; i < CANT_TORTUGAS; i++)
 		al_set_target_bitmap(tortugas->at(i)->GetSprite());
 	for (int i = 0; i < caracol->GetLives(); i++)
-		al_set_target_bitmap(lives->at(i)->GetSprite());
+		al_set_target_bitmap(caracol->GetSprite());
+	al_set_target_bitmap(hormiguero->GetSprite());
 	al_set_target_bitmap(al_get_backbuffer(display));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -105,6 +108,7 @@ int Game::Initialize()
 	al_start_timer(timer);
 
 	al_play_sample(titleSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+	hormiguero->Initialize(SCREEN_W, SCREEN_H);
 	return 0;
 }
 
@@ -122,6 +126,7 @@ void Game::Update()
 	{
 		if (ev.keyboard.keycode == ALLEGRO_KEY_ENTER && !isRunning)
 		{
+			al_set_timer_count(timer,0);
 			isRunning = true;
 			al_rest(0.2);
 			al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
@@ -138,6 +143,10 @@ void Game::Update()
 			saleros->at(i)->Update(SCREEN_W, SCREEN_H);
 		for (int i = 0; i < CANT_TORTUGAS; i++)
 			tortugas->at(i)->Update(SCREEN_W, SCREEN_H);
+		for (int i = 0; i < hormiguero->GetHormigas()->size(); i++)
+			hormiguero->GetHormigas()->at(i)->Update(SCREEN_W,SCREEN_H);
+		if (al_get_timer_count(timer) % 600 == 0)
+			hormiguero->Reset(SCREEN_W, SCREEN_H);
 		// COLLISION
 		for (int i = 0; i < CANT_SALEROS; i++)
 		{
@@ -169,6 +178,27 @@ void Game::Update()
 				score += 200;
 			}
 		}
+		for (int i = 0; i < hormiguero->GetHormigas()->size(); i++)
+		{
+			if (Collision::AABB(caracol, hormiguero->GetHormigas()->at(i)))
+			{
+				if (hormiguero->GetHormigas()->at(i)->IsAlive())
+				{
+					hormiguero->GetHormigas()->at(i)->Kill();
+					caracol->TakeDamage();
+					caracol->SetPosition(SCREEN_W / 2 - caracol->GetWidth() / 2, SCREEN_H / 2 - caracol->GetHeight() / 2);
+				}
+			}
+			if (Collision::AABB(caracol->GetRayo(), hormiguero->GetHormigas()->at(i)))
+			{
+				if (hormiguero->GetHormigas()->at(i)->IsAlive())
+				{
+					hormiguero->GetHormigas()->at(i)->Kill();
+					caracol->GetRayo()->SetActivated(false);
+					score += 100;
+				}
+			}
+		}
 		// REVISAR VIDA PERSONAJE
 		if (!caracol->isAlive())
 			gameOver = true;
@@ -189,17 +219,20 @@ void Game::Draw()
 	if (redraw && al_is_event_queue_empty(event_queue)) {
 		redraw = false;
 		al_clear_to_color(al_map_rgb(50, 75, 0));
-		caracol->Draw();
 		if (caracol->GetRayo()->GetActivated())
 			caracol->GetRayo()->Draw();
 		if (isRunning)
 		{
+			hormiguero->Draw();
 			for (int i = 0; i < CANT_SALEROS; i++)
 				saleros->at(i)->Draw();
 			for (int i = 0; i < CANT_TORTUGAS; i++)
 				tortugas->at(i)->Draw();
 			for (int i = 0; i < caracol->GetLives(); i++)
 				lives->at(i)->Draw();
+			for (int i = 0; i < hormiguero->GetHormigas()->size(); i++)
+				if (hormiguero->GetHormigas()->at(i)->IsAlive())
+					hormiguero->GetHormigas()->at(i)->Draw();
 			string scoreText = "SCORE " + to_string(score);
 			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, 10, ALLEGRO_ALIGN_CENTRE, scoreText.c_str());
 		}
@@ -210,6 +243,7 @@ void Game::Draw()
 			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 200, ALLEGRO_ALIGN_CENTRE, "USE ARROWS TO MOVE AND SPACE TO FIRE!");
 			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 50, ALLEGRO_ALIGN_CENTRE, "PRESS ESC TO EXIT");
 		}
+		caracol->Draw();
 		al_flip_display();
 	}
 }

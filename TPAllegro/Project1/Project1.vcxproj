@@ -176,6 +176,8 @@ copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_audio-5.1.dll" "
     <ClCompile Include="Caracol.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Hormiga.cpp" />
+    <ClCompile Include="Hormiguero.cpp" />
     <ClCompile Include="Rayo.cpp" />
     <ClCompile Include="Sal.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -186,6 +188,8 @@ copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_audio-5.1.dll" "
     <ClInclude Include="Caracol.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Hormiga.h" />
+    <ClInclude Include="Hormiguero.h" />
     <ClInclude Include="Rayo.h" />
     <ClInclude Include="Sal.h" />
     <ClInclude Include="Sprite.h" />
