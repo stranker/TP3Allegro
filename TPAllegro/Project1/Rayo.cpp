@@ -23,7 +23,7 @@ void Rayo::Update(int SCREEN_W, int SCREEN_H)
 
 void Rayo::Shoot(float posX, float posY, float _dirX, float _dirY)
 {
-	SetPosition(posX, posY);
+	SetPosition(posX - GetWidth()/2, posY);
 	dirX = _dirX;
 	dirY = _dirY;
 	isActivated = true;
