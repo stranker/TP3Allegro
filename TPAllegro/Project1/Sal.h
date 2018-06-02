@@ -9,6 +9,7 @@ private:
 	bool lateralMovement = false;
 	const int speed = 2;
 	int dir = 1;
+	ALLEGRO_SAMPLE *hit = NULL;
 public:
 	Sal(int SCREEN_W, int SCREEN_H);
 	Sal(float posX, float posY, const char* imageFile, int w, int h, bool lateralMovement);

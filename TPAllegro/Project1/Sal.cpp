@@ -1,17 +1,20 @@
 #include "Sal.h"
 
-Sal::Sal(int SCREEN_W, int SCREEN_H) : Sprite (0,0,"sal.png",60,96)
+Sal::Sal(int SCREEN_W, int SCREEN_H) : Sprite (0,0,"Asset/Sprite/sal.png",60,96)
 {
 	Initialize(SCREEN_W,SCREEN_H);
+	hit = al_load_sample("Asset/Sound/salHit.wav");
 }
 
 Sal::Sal(float posX, float posY, const char * imageFile, int w, int h, bool latMov) : Sprite(posX, posY, imageFile, w, h)
 {
 	lateralMovement = latMov;
+	hit = al_load_sample("Asset/Sound/salHit.wav");
 }
 
 Sal::~Sal()
 {
+	al_destroy_sample(hit);
 }
 
 void Sal::Movimiento(int SCREEN_W, int SCREEN_H)
@@ -100,5 +103,6 @@ void Sal::Update(int SCREEN_W, int SCREEN_H)
 
 void Sal::Kill(int SCREEN_W, int SCREEN_H)
 {
+	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	Initialize(SCREEN_W, SCREEN_H);
 }
