@@ -44,7 +44,7 @@ public:
 	int EventInit();
 	int CreateWindow();
 	int CreateTimer();
-	bool IsGameOver();
+	bool IsGameOver() const;
 };
 
 #endif // !GAME_H

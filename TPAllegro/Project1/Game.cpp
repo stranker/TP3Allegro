@@ -119,7 +119,8 @@ void Game::Update()
 	if (ev.type == ALLEGRO_EVENT_TIMER) {
 		redraw = true;
 	}
-	else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+	else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) 
+	{
 		gameOver = true;
 	}
 	if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -133,7 +134,9 @@ void Game::Update()
 			caracol->SetPosition(SCREEN_W / 2 - caracol->GetWidth() / 2, SCREEN_H / 2 - caracol->GetHeight() / 2);
 		}
 		if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+		{
 			gameOver = true;
+		}
 	}
 	caracol->Update(ev, SCREEN_W, SCREEN_H);
 	if (isRunning)
@@ -201,16 +204,20 @@ void Game::Update()
 		}
 		// REVISAR VIDA PERSONAJE
 		if (!caracol->isAlive())
+		{
 			gameOver = true;
+			al_rest(1);
+		}
 	}
 	if (gameOver)
 	{
 		al_stop_samples();
 		al_play_sample(gameOverSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 		al_clear_to_color(al_map_rgb(0, 0, 0));
-		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 50, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 + 50, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 50, ALLEGRO_ALIGN_CENTRE, ("FINAL SCORE "+ to_string(score)).c_str());
 		al_flip_display();
-		al_rest(3);
+		al_rest(4);
 	}
 }
 
@@ -285,7 +292,7 @@ int Game::CreateTimer()
 	return 0;
 }
 
-bool Game::IsGameOver()
+bool Game::IsGameOver() const
 {
 	return gameOver;
 }

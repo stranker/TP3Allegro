@@ -1,6 +1,6 @@
 #include "Hormiga.h"
 
-Hormiga::Hormiga(float posX, float posY, int dX, int dY) : Sprite(posX, posY, "Asset/Sprite/hormiga.png", 20, 20)
+Hormiga::Hormiga(float posX, float posY, int dX, int dY) : Sprite(posX, posY, "Asset/Sprite/hormiga.png", 40, 40)
 {
 	dirX = dX;
 	dirY = dY;
