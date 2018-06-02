@@ -14,15 +14,15 @@ Game::~Game()
 	al_destroy_timer(timer);
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
-	delete display;
-	delete event_queue;
-	delete timer;
 	delete caracol;
 	delete saleros;
 	delete tortugas;
 	delete lives;
-	delete menuFont;
-	delete titleFont;
+	al_destroy_font(menuFont);
+	al_destroy_font(titleFont);
+	al_destroy_sample(music);
+	al_destroy_sample(titleSound);
+	al_destroy_sample(gameOverSound);
 }
 
 int Game::Initialize()
@@ -44,11 +44,30 @@ int Game::Initialize()
 		fprintf(stderr, "failed to initialize the Keyboard!\n");
 		return -1;
 	}
+	// SE INICIALIZA AUDIO
+	if (!al_install_audio()) {
+		fprintf(stderr, "failed to initialize audio!\n");
+		return -1;
+	}
+
+	if (!al_init_acodec_addon()) {
+		fprintf(stderr, "failed to initialize audio codecs!\n");
+		return -1;
+	}
+
+	if (!al_reserve_samples(4)) {
+		fprintf(stderr, "failed to reserve samples!\n");
+		return -1;
+	}
 	// SE INICIALIZA LOS FONT
 	al_init_font_addon();
 	al_init_ttf_addon();
-	titleFont = al_load_ttf_font("consola.ttf", 72, 0);
-	menuFont = al_load_ttf_font("consola.ttf", 28, 0);
+	titleFont = al_load_ttf_font("Asset/Font/consola.ttf", 72, 0);
+	menuFont = al_load_ttf_font("Asset/Font/consola.ttf", 28, 0);
+	// SE INICIALIZA LA MUSICA
+	music = al_load_sample("Asset/Sound/music.wav");
+	titleSound = al_load_sample("Asset/Sound/titleSound.wav");
+	gameOverSound = al_load_sample("Asset/Sound/gameOver.wav");
 	// SE CREA DELTA TIME COMO TIMER
 	CreateTimer();
 	// SE CREA LA VENTANA
@@ -64,7 +83,7 @@ int Game::Initialize()
 	for (int i = 0; i < CANT_TORTUGAS; i++)
 		tortugas->push_back(new Tortuga(SCREEN_W, SCREEN_H));
 	for (int i = 0; i < caracol->GetLives(); i++)
-		lives->push_back(new Sprite(5 + i*70,5,"corazon.png",0,0));
+		lives->push_back(new Sprite(5 + i*70,5,"Asset/Sprite/corazon.png",0,0));
 	// SE CREA INPUT
 	EventInit();
 	// SE REGISTRAN IMAGENES Y EVENTOS
@@ -85,6 +104,7 @@ int Game::Initialize()
 	al_flip_display();
 	al_start_timer(timer);
 
+	al_play_sample(titleSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	return 0;
 }
 
@@ -101,14 +121,19 @@ void Game::Update()
 	if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
 	{
 		if (ev.keyboard.keycode == ALLEGRO_KEY_ENTER && !isRunning)
+		{
 			isRunning = true;
+			al_rest(0.2);
+			al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+			caracol->SetPosition(SCREEN_W / 2 - caracol->GetWidth() / 2, SCREEN_H / 2 - caracol->GetHeight() / 2);
+		}
 		if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 			gameOver = true;
 	}
+	caracol->Update(ev, SCREEN_W, SCREEN_H);
 	if (isRunning)
 	{
 		// UPDATE DE LOS PERSONAJES
-		caracol->Update(ev, SCREEN_W, SCREEN_H);
 		for (int i = 0; i < CANT_SALEROS; i++)
 			saleros->at(i)->Update(SCREEN_W, SCREEN_H);
 		for (int i = 0; i < CANT_TORTUGAS; i++)
@@ -148,18 +173,27 @@ void Game::Update()
 		if (!caracol->isAlive())
 			gameOver = true;
 	}
+	if (gameOver)
+	{
+		al_stop_samples();
+		al_play_sample(gameOverSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 50, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+		al_flip_display();
+		al_rest(3);
+	}
 }
 
 void Game::Draw()
 {
 	if (redraw && al_is_event_queue_empty(event_queue)) {
 		redraw = false;
+		al_clear_to_color(al_map_rgb(50, 75, 0));
+		caracol->Draw();
+		if (caracol->GetRayo()->GetActivated())
+			caracol->GetRayo()->Draw();
 		if (isRunning)
 		{
-			al_clear_to_color(al_map_rgb(50, 75, 0));
-			caracol->Draw();
-			if (caracol->GetRayo()->GetActivated())
-				caracol->GetRayo()->Draw();
 			for (int i = 0; i < CANT_SALEROS; i++)
 				saleros->at(i)->Draw();
 			for (int i = 0; i < CANT_TORTUGAS; i++)
@@ -172,9 +206,9 @@ void Game::Draw()
 		else
 		{
 			al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 150, ALLEGRO_ALIGN_CENTRE, "SNAILWORM SHIM");
-			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H / 2 + 100, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO START GAME");
-			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 100, ALLEGRO_ALIGN_CENTRE, "PRESS ESC TO EXIT");
-			al_draw_bitmap(al_load_bitmap("player.png"), SCREEN_W / 2 - caracol->GetWidth()/2, SCREEN_H / 2 - caracol->GetHeight()/2, 0);
+			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 100, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO START GAME");
+			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 200, ALLEGRO_ALIGN_CENTRE, "USE ARROWS TO MOVE AND SPACE TO FIRE!");
+			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 50, ALLEGRO_ALIGN_CENTRE, "PRESS ESC TO EXIT");
 		}
 		al_flip_display();
 	}

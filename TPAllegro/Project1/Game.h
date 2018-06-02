@@ -25,6 +25,7 @@ private:
 	vector<Sal*> *saleros;
 	vector<Tortuga*> *tortugas;
 	vector<Sprite*> *lives;
+	ALLEGRO_SAMPLE *music = NULL, *titleSound = NULL, *gameOverSound = NULL;
 	bool redraw = true;
 	bool gameOver = false;
 	bool isRunning = false;
