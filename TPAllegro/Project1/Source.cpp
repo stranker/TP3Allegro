@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 		game->Update();
 		game->Draw();
 	}
-	al_rest(0.1);
+	al_rest(0.5);
 	delete game;
 	return 0;
 } 

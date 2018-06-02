@@ -1,7 +1,8 @@
 #include "Tortuga.h"
 
-Tortuga::Tortuga(int SCREEN_W, int SCREEN_H) : Sprite(0, 0, "tortuga.png", 80, 40)
+Tortuga::Tortuga(int SCREEN_W, int SCREEN_H) : Sprite(0, 0, "Asset/Sprite/tortuga.png", 80, 40)
 {
+	hit = al_load_sample("Asset/Sound/tortugaHit.wav");
 	Initialize(SCREEN_W, SCREEN_H);
 }
 
@@ -11,6 +12,7 @@ Tortuga::Tortuga(float posX, float posY, const char * fileLoc, int w, int h) : S
 
 Tortuga::~Tortuga()
 {
+	al_destroy_sample(hit);
 }
 
 void Tortuga::Movimiento(int SCREEN_W, int SCREEN_H)
@@ -53,5 +55,6 @@ void Tortuga::Update(int SCREEN_W, int SCREEN_H)
 
 void Tortuga::Kill(int SCREEN_W, int SCREEN_H)
 {
+	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	Initialize(SCREEN_W, SCREEN_H);
 }

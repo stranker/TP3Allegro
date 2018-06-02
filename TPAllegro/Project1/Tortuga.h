@@ -8,6 +8,7 @@ class Tortuga :	public Sprite
 private:
 	const int speed = 1;
 	int dir = 1;
+	ALLEGRO_SAMPLE *hit = NULL;
 public:
 	Tortuga(int SCREEN_W, int SCREEN_H);
 	Tortuga(float posX, float posY, const char* fileLoc, int w, int h);
