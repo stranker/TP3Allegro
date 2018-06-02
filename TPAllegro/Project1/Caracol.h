@@ -14,6 +14,7 @@ private:
 	bool canShoot = true;
 	Rayo* rayo;
 	int life = MAX_LIFE;
+	ALLEGRO_SAMPLE *hit = NULL;
 public:
 	Caracol(float posX, float posY);
 	Caracol(float posX, float posY, const char* imageFile, int w, int h);

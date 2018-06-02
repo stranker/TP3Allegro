@@ -2,18 +2,21 @@
 
 enum KEYS { UP, DOWN, LEFT, RIGHT };
 
-Caracol::Caracol(float posX, float posY) : Sprite(posX, posY, "player.png", 78, 50)
+Caracol::Caracol(float posX, float posY) : Sprite(posX, posY, "Asset/Sprite/player.png", 78, 50)
 {
-	rayo = new Rayo(posX, posY, "laser.png", 32, 32);
+	rayo = new Rayo(posX, posY, "Asset/Sprite/laser.png", 32, 32);
+	hit = al_load_sample("Asset/Sound/playerHit.wav");
 }
 
 Caracol::Caracol(float posX, float posY, const char * imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
-	rayo = new Rayo(posX, posY, "laser.png", 32, 32);
+	rayo = new Rayo(posX, posY, "Asset/Sound/laser.png", 32, 32);
+	hit = al_load_sample("Asset/Sound/playerHit.wav");
 }
 
 Caracol::~Caracol()
 {
+	al_destroy_sample(hit);
 }
 
 void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
@@ -38,26 +41,26 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 		case ALLEGRO_KEY_UP:
 			keys[UP] = true;
 			dirY = -1;
-			ChangeSprite("playerUp.png");
+			ChangeSprite("Asset/Sprite/playerUp.png");
 			break;
 		case ALLEGRO_KEY_DOWN:
 			keys[DOWN] = true;
 			dirY = 1;
-			ChangeSprite("playerDown.png");
+			ChangeSprite("Asset/Sprite/playerDown.png");
 			break;
 		case ALLEGRO_KEY_LEFT:
 			keys[LEFT] = true;
 			FlipH(true);
 			dirX = -1;
 			dirY = 0;
-			ChangeSprite("player.png");
+			ChangeSprite("Asset/Sprite/player.png");
 			break;
 		case ALLEGRO_KEY_RIGHT:
 			keys[RIGHT] = true;
 			FlipH(false);
 			dirY = 0;
 			dirX = 1;
-			ChangeSprite("player.png");
+			ChangeSprite("Asset/Sprite/player.png");
 			break;
 		}
 	}
@@ -119,6 +122,7 @@ Rayo * Caracol::GetRayo() const
 
 void Caracol::TakeDamage()
 {
+	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	life--;
 }
 
