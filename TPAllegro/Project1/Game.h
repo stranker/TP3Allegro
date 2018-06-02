@@ -21,6 +21,10 @@ private:
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_FONT *titleFont, *menuFont;
+	Caracol* caracol;
+	vector<Sal*> *saleros;
+	vector<Tortuga*> *tortugas;
+	vector<Sprite*> *lives;
 	bool redraw = true;
 	bool gameOver = false;
 	bool isRunning = false;
@@ -28,10 +32,6 @@ private:
 	int SCREEN_H;
 	int FPS;
 	int score = 0;
-	Caracol* caracol;
-	vector<Sal*> *saleros;
-	vector<Tortuga*> *tortugas;
-	vector<Sprite*> *lives;
 public:
 	Game(int SCREEN_W, int SCREEN_H, int FPS);
 	~Game();

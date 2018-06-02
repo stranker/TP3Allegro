@@ -14,10 +14,15 @@ Game::~Game()
 	al_destroy_timer(timer);
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
+	delete display;
+	delete event_queue;
+	delete timer;
 	delete caracol;
 	delete saleros;
 	delete tortugas;
 	delete lives;
+	delete menuFont;
+	delete titleFont;
 }
 
 int Game::Initialize()
@@ -94,8 +99,12 @@ void Game::Update()
 		gameOver = true;
 	}
 	if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
+	{
 		if (ev.keyboard.keycode == ALLEGRO_KEY_ENTER && !isRunning)
 			isRunning = true;
+		if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+			gameOver = true;
+	}
 	if (isRunning)
 	{
 		// UPDATE DE LOS PERSONAJES
@@ -158,12 +167,13 @@ void Game::Draw()
 			for (int i = 0; i < caracol->GetLives(); i++)
 				lives->at(i)->Draw();
 			string scoreText = "SCORE " + to_string(score);
-			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, 5, ALLEGRO_ALIGN_CENTRE, scoreText.c_str());
+			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, 10, ALLEGRO_ALIGN_CENTRE, scoreText.c_str());
 		}
 		else
 		{
-			al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 100, ALLEGRO_ALIGN_CENTRE, "SNAILWORM SHIM");
-			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H / 2 + 200, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO START GAME");
+			al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 150, ALLEGRO_ALIGN_CENTRE, "SNAILWORM SHIM");
+			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H / 2 + 100, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO START GAME");
+			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 100, ALLEGRO_ALIGN_CENTRE, "PRESS ESC TO EXIT");
 			al_draw_bitmap(al_load_bitmap("player.png"), SCREEN_W / 2 - caracol->GetWidth()/2, SCREEN_H / 2 - caracol->GetHeight()/2, 0);
 		}
 		al_flip_display();
