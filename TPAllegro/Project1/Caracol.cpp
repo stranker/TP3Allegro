@@ -119,10 +119,15 @@ Rayo * Caracol::GetRayo() const
 
 void Caracol::TakeDamage()
 {
-	vidas--;
+	life--;
 }
 
-bool Caracol::isAlive()
+int Caracol::GetLives() const
 {
-	return vidas <= 0;
+	return life;
+}
+
+bool Caracol::isAlive() const
+{
+	return life > 0;
 }

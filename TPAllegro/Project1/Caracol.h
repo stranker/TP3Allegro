@@ -2,6 +2,7 @@
 #define CARACOL_H
 #include "Rayo.h"
 #include "Sprite.h"
+#define MAX_LIFE 3
 
 class Caracol : public Sprite
 {
@@ -12,7 +13,7 @@ private:
 	const int speed = 3;
 	bool canShoot = true;
 	Rayo* rayo;
-	int vidas = 3;
+	int life = MAX_LIFE;
 public:
 	Caracol(float posX, float posY);
 	Caracol(float posX, float posY, const char* imageFile, int w, int h);
@@ -25,7 +26,8 @@ public:
 	int GetDirY() const;
 	Rayo* GetRayo() const;
 	void TakeDamage();
-	bool isAlive();
+	bool isAlive() const;
+	int GetLives() const;
 };
 
 #endif
