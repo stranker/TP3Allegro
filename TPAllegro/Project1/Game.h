@@ -1,12 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 #define CANT_SALEROS 3
+#define CANT_TORTUGAS 2
 
 #include <stdio.h>
 #include <iostream>
 #include "Caracol.h"
 #include "Sal.h"
 #include "Collision.h"
+#include "Tortuga.h"
 #include <vector>
 
 class Game
@@ -22,6 +24,7 @@ private:
 	int FPS;
 	Caracol* caracol;
 	vector<Sal*> *saleros;
+	vector<Tortuga*> *tortugas;
 public:
 	Game(int SCREEN_W, int SCREEN_H, int FPS);
 	~Game();

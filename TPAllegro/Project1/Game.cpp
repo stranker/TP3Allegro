@@ -16,6 +16,7 @@ Game::~Game()
 	al_destroy_event_queue(event_queue);
 	delete caracol;
 	delete saleros;
+	delete tortugas;
 }
 
 int Game::Initialize()
@@ -42,10 +43,13 @@ int Game::Initialize()
 	// SE CREA LA VENTANA
 	CreateWindow();
 	// SE CREAN PERSONAJES
-	caracol = new Caracol(SCREEN_W/2, SCREEN_H/2, "player.png", 151,100);
+	caracol = new Caracol(SCREEN_W / 2, SCREEN_H / 2);
 	saleros = new vector<Sal*>;
+	tortugas = new vector<Tortuga*>;
 	for (int i = 0; i < CANT_SALEROS; i++)
-		saleros->push_back(new Sal("sal.png", SCREEN_W, SCREEN_H));
+		saleros->push_back(new Sal(SCREEN_W, SCREEN_H));
+	for (int i = 0; i < CANT_TORTUGAS; i++)
+		tortugas->push_back(new Tortuga(SCREEN_W, SCREEN_H));
 	// SE CREA INPUT
 	EventInit();
 	// SE REGISTRAN IMAGENES Y EVENTOS
@@ -53,6 +57,8 @@ int Game::Initialize()
 	al_set_target_bitmap(caracol->GetRayo()->GetSprite());
 	for (int i = 0; i < CANT_SALEROS; i++)
 		al_set_target_bitmap(saleros->at(i)->GetSprite());
+	for (int i = 0; i < CANT_TORTUGAS; i++)
+		al_set_target_bitmap(tortugas->at(i)->GetSprite());
 	al_set_target_bitmap(al_get_backbuffer(display));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -79,6 +85,8 @@ void Game::Update()
 	caracol->Update(ev, SCREEN_W, SCREEN_H);
 	for (int i = 0; i < CANT_SALEROS; i++)
 		saleros->at(i)->Update(SCREEN_W, SCREEN_H);
+	for (int i = 0; i < CANT_TORTUGAS; i++)
+		tortugas->at(i)->Update(SCREEN_W, SCREEN_H);
 	// COLLISION
 	for (int i = 0; i < CANT_SALEROS; i++)
 	{
@@ -90,6 +98,17 @@ void Game::Update()
 			caracol->GetRayo()->SetActivated(false);
 		}
 	}
+	
+	for (int i = 0; i < CANT_TORTUGAS; i++)
+	{
+		if (Collision::AABB(caracol, tortugas->at(i)))
+			caracol->SetPosition(SCREEN_W / 2, SCREEN_H / 2);
+		if (Collision::AABB(caracol->GetRayo(), tortugas->at(i)))
+		{
+			tortugas->at(i)->Kill(SCREEN_W, SCREEN_H);
+			caracol->GetRayo()->SetActivated(false);
+		}
+	}
 }
 
 void Game::Draw()
@@ -97,14 +116,13 @@ void Game::Draw()
 	if (redraw && al_is_event_queue_empty(event_queue)) {
 		redraw = false;
 		al_clear_to_color(al_map_rgb(50, 75, 0));
-		if (caracol->GetDirX() < 0)
-			caracol->Draw(true);
-		else
-			caracol->Draw(false);
+		caracol->Draw();
 		if (caracol->GetRayo()->GetActivated())
-			caracol->GetRayo()->Draw(false);
+			caracol->GetRayo()->Draw();
 		for (int i = 0; i < CANT_SALEROS; i++)
-			saleros->at(i)->Draw(false);
+			saleros->at(i)->Draw();
+		for (int i = 0; i < CANT_TORTUGAS; i++)
+			tortugas->at(i)->Draw();
 		al_flip_display();
 	}
 }
@@ -116,6 +134,7 @@ int Game::EventInit()
 		fprintf(stderr, "failed to create event_queue!\n");
 		delete caracol;
 		delete saleros;
+		delete tortugas;
 		al_destroy_display(display);
 		al_destroy_timer(timer);
 		return -1;
