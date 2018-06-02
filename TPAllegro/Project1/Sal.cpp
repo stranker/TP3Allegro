@@ -1,6 +1,6 @@
 #include "Sal.h"
 
-Sal::Sal(const char *imageFile, int SCREEN_W, int SCREEN_H) : Sprite (0,0,imageFile,60,96)
+Sal::Sal(int SCREEN_W, int SCREEN_H) : Sprite (0,0,"sal.png",60,96)
 {
 	Initialize(SCREEN_W,SCREEN_H);
 }
