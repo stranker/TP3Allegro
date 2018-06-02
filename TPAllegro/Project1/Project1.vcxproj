@@ -136,12 +136,12 @@ copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_font-debug-5.1.d
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_dialog-debug-5.1.dll" "$(OutDir)"
-copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_image-debug-5.1.dll" "$(OutDir)"
-copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_main-debug-5.1.dll" "$(OutDir)"
-copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro-debug-5.1.dll" "$(OutDir)"
-copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_ttf-debug-5.1.dll" "$(OutDir)"
-copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_font-debug-5.1.dll" "$(OutDir)"
+      <Command>copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_dialog-5.1.dll" "$(OutDir)"
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_image-5.1.dll" "$(OutDir)"
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_main-5.1.dll" "$(OutDir)"
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro-5.1.dll" "$(OutDir)"
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_ttf-5.1.dll" "$(OutDir)"
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x86\bin\allegro_font-5.1.dll" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
