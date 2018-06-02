@@ -2,11 +2,13 @@
 
 Rayo::Rayo(float posX, float posY, const char* imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
+	sound = al_load_sample("Asset/Sound/laser.wav");
 }
 
 Rayo::~Rayo()
 {
 	al_destroy_bitmap(sprite);
+	al_destroy_sample(sound);
 }
 
 void Rayo::Movimiento(int SCREEN_W, int SCREEN_H)
@@ -27,6 +29,7 @@ void Rayo::Shoot(float posX, float posY, float _dirX, float _dirY)
 	dirX = _dirX;
 	dirY = _dirY;
 	isActivated = true;
+	al_play_sample(sound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 }
 
 bool Rayo::GetActivated() const

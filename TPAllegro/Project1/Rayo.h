@@ -5,6 +5,7 @@
 
 class Rayo : public Sprite{
 	ALLEGRO_BITMAP * sprite = NULL;
+	ALLEGRO_SAMPLE *sound = NULL;
 	int dirX;
 	int dirY;
 	const int speed = 5;
