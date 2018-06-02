@@ -8,6 +8,7 @@ private:
 	bool isAlive = true;
 	int dirX;
 	int dirY;
+	ALLEGRO_SAMPLE *hit = NULL;
 public:
 	Hormiga(float posX, float posY, int dX, int dY);
 	~Hormiga();
