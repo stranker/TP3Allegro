@@ -47,4 +47,4 @@ public:
 	bool IsGameOver() const;
 };
 
-#endif // !GAME_H
+#endif

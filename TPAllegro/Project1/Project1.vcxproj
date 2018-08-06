@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
@@ -110,17 +111,22 @@ xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\include;$(SolutionDir)libs\Allegro\allegro_dependencies_x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-      <AdditionalDependencies>allegro-debug.lib;allegro_image-debug.lib;allegro_main-debug.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\lib;$(SolutionDir)libs\Allegro\allegro_dependencies_x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>allegro_dialog-debug.lib;allegro-debug.lib;allegro_main-debug.lib;allegro_image-debug.lib;allegro_ttf-debug.lib;allegro_font-debug.lib;allegro_audio-debug.lib;allegro_acodec-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_dialog-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_image-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_main-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_ttf-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_font-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_acodec-debug-5.1.dll" "$(OutDir)" /y
+copy "$(SolutionDir)libs\Allegro\allegro_5.1.12_x64\bin\allegro_audio-debug-5.1.dll" "$(OutDir)" /y
+xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

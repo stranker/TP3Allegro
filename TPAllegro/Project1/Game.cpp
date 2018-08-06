@@ -202,7 +202,7 @@ void Game::Update()
 				}
 			}
 		}
-		// REVISAR VIDA PERSONAJE
+		// CHECK VIDA PERSONAJE
 		if (!caracol->isAlive())
 		{
 			gameOver = true;
