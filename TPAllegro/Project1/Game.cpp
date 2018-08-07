@@ -109,6 +109,7 @@ int Game::Initialize()
 
 	al_play_sample(titleSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	hormiguero->Initialize(SCREEN_W, SCREEN_H);
+	isOpen = true;
 	return 0;
 }
 
@@ -209,7 +210,7 @@ void Game::Update()
 			al_rest(1);
 		}
 	}
-	if (gameOver)
+	/*if (gameOver)
 	{
 		al_stop_samples();
 		al_play_sample(gameOverSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
@@ -218,7 +219,7 @@ void Game::Update()
 		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 50, ALLEGRO_ALIGN_CENTRE, ("FINAL SCORE "+ to_string(score)).c_str());
 		al_flip_display();
 		al_rest(4);
-	}
+	}*/
 }
 
 void Game::Draw()
@@ -249,6 +250,16 @@ void Game::Draw()
 			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 100, ALLEGRO_ALIGN_CENTRE, "PRESS ENTER TO START GAME");
 			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 200, ALLEGRO_ALIGN_CENTRE, "USE ARROWS TO MOVE AND SPACE TO FIRE!");
 			al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 50, ALLEGRO_ALIGN_CENTRE, "PRESS ESC TO EXIT");
+		}
+		if (gameOver)
+		{
+			al_stop_samples();
+			al_play_sample(gameOverSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+			al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 + 50, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+			al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 50, ALLEGRO_ALIGN_CENTRE, ("FINAL SCORE " + to_string(score)).c_str());
+			al_flip_display();
+			al_rest(4);
 		}
 		caracol->Draw();
 		al_flip_display();

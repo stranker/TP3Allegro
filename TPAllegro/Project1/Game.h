@@ -35,6 +35,7 @@ private:
 	int SCREEN_H;
 	int FPS;
 	int score = 0;
+	bool isOpen;
 public:
 	Game(int SCREEN_W, int SCREEN_H, int FPS);
 	~Game();
@@ -45,6 +46,7 @@ public:
 	int CreateWindow();
 	int CreateTimer();
 	bool IsGameOver() const;
+	bool IsOpen() const;
 };
 
 #endif
