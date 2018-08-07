@@ -21,6 +21,7 @@ private:
 	ALLEGRO_DISPLAY * display = NULL;
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer = NULL;
+	ALLEGRO_EVENT ev;
 	ALLEGRO_FONT *titleFont, *menuFont;
 	Caracol* caracol;
 	vector<Sal*> *saleros;
@@ -47,6 +48,9 @@ public:
 	int CreateTimer();
 	bool IsGameOver() const;
 	bool IsOpen() const;
+	ALLEGRO_EVENT GetEvent() const;
+	ALLEGRO_DISPLAY* GetDisplay() const;
+	ALLEGRO_EVENT_QUEUE* GetEventQueue() const;
 };
 
 #endif

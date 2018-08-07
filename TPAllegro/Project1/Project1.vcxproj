@@ -190,6 +190,7 @@ xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s
     <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="Rayo.cpp" />
     <ClCompile Include="Sal.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Tortuga.cpp" />
