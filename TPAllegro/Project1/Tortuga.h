@@ -1,14 +1,15 @@
 #ifndef TORTUGA_H
 #define TORTUGA_H
 
-#include "Sprite.h"
+#include "Enemy.h"
 
-class Tortuga :	public Sprite
+class Tortuga :	public Enemy
 {
 private:
 	const int speed = 1;
 	int dir = 1;
 	ALLEGRO_SAMPLE *hit = NULL;
+	bool isAlive = true;
 public:
 	Tortuga();
 	Tortuga(float posX, float posY, const char* fileLoc, int w, int h);
@@ -16,8 +17,7 @@ public:
 	void Movimiento();
 	void Initialize();
 	void Update();
-	void Kill();
-	void Collision(Sprite* collision);
+	virtual void Kill();
 };
 
 #endif

@@ -1,7 +1,8 @@
 #ifndef HORMIGA_H
 #define HORMIGA_H
-#include "Sprite.h"
-class Hormiga :	public Sprite
+#include "Enemy.h"
+
+class Hormiga :	public Enemy
 {
 private:
 	const int speed = 2;
@@ -14,11 +15,10 @@ public:
 	~Hormiga();
 	void Movimiento();
 	void Update();
-	void Kill();
+	virtual void Kill();
 	void SetDir(int x, int y);
 	bool IsAlive() const;
 	void Revive();
-	void Collision(Sprite* collision);
 };
 
 #endif

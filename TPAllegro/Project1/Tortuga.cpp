@@ -1,13 +1,12 @@
 #include "Tortuga.h"
 
-Tortuga::Tortuga() : Sprite(0, 0, "Asset/Sprite/tortuga.png", 80, 40)
+Tortuga::Tortuga() : Enemy(0, 0, "Asset/Sprite/tortuga.png", 80, 40)
 {
-	AddType(ENEMY);
 	hit = al_load_sample("Asset/Sound/tortugaHit.wav");
 	Initialize();
 }
 
-Tortuga::Tortuga(float posX, float posY, const char * fileLoc, int w, int h) : Sprite(posX, posY, fileLoc, w , h)
+Tortuga::Tortuga(float posX, float posY, const char * fileLoc, int w, int h) : Enemy(posX, posY, fileLoc, w , h)
 {
 }
 
@@ -35,6 +34,7 @@ void Tortuga::Movimiento()
 
 void Tortuga::Initialize()
 {
+	isAlive = true;
 	if (rand() % 100 > 50)
 	{
 		dir = 1;
@@ -56,18 +56,11 @@ void Tortuga::Update()
 
 void Tortuga::Kill()
 {
-	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	Initialize();
-}
-
-void Tortuga::Collision(Sprite * collision)
-{
-	if (CheckCollision(this, collision))
+	if (isAlive)
 	{
-		if (collision->GetType() == BULLET)
-		{
-			Kill();
-			gameScore += SCORE_TORTUGA;
-		}
+		isAlive = false;
+		al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		gameScore += SCORE_TORTUGA;
+		Initialize();
 	}
 }

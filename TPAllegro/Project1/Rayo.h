@@ -2,6 +2,7 @@
 #define RAYO_H
 
 #include "Sprite.h"
+#include "Enemy.h"
 
 class Rayo : public Sprite{
 	ALLEGRO_BITMAP * sprite = NULL;
@@ -18,7 +19,7 @@ public:
 	void Shoot(float posX, float posY, float dirX, float dirY);
 	bool GetActivated() const;
 	void SetActivated(bool val);
-	void Collision(Sprite* collision);
+	void Collision(Enemy* collision);
 };
 #endif
 

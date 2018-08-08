@@ -34,6 +34,7 @@ void GameScene::Initialize()
 		saleros->push_back(new Sal());
 	for (int i = 0; i < CANT_TORTUGAS; i++)
 		tortugas->push_back(new Tortuga());
+	lives->clear();
 	for (int i = 0; i < caracol->GetLives(); i++)
 		lives->push_back(new Sprite(5 + i * 70, 5, "Asset/Sprite/corazon.png", 0, 0));
 	hormiguero->Initialize();
@@ -44,13 +45,14 @@ int GameScene::Run(Window* window)
 	SetRunning(true);
 	SetWindow(window);
 	al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-	while (IsRunning())
+	ResetGame();
+	while (IsRunning() && !gameOver)
 	{
 		Update();
 		Draw();
 	}
-	ResetGame();
-	return MENU_SCENE;
+	al_stop_samples();
+	return GAME_OVER_SCENE;
 }
 
 void GameScene::Update()
@@ -58,6 +60,13 @@ void GameScene::Update()
 	GetWindow()->EventManager();
 	if (GetWindow()->GetEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 	{
+		al_rest(0.2);
+		SetRunning(false);
+		GetWindow()->Close();
+	}
+	if (GetWindow()->GetEvent().type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+	{
+		al_rest(0.2);
 		SetRunning(false);
 	}
 	// UPDATE DE LOS PERSONAJES
@@ -75,22 +84,19 @@ void GameScene::Update()
 	{
 		caracol->Collision(saleros->at(i));
 		caracol->GetRayo()->Collision(saleros->at(i));
-		saleros->at(i)->Collision(caracol->GetRayo());
 	}
 	for (int i = 0; i < CANT_TORTUGAS; i++)
 	{
 		caracol->Collision(tortugas->at(i));
 		caracol->GetRayo()->Collision(tortugas->at(i));
-		tortugas->at(i)->Collision(caracol->GetRayo());
 	}
 	for (int i = 0; i < hormiguero->GetHormigas()->size(); i++)
 	{
 		caracol->Collision(hormiguero->GetHormigas()->at(i));
 		caracol->GetRayo()->Collision(hormiguero->GetHormigas()->at(i));
-		hormiguero->GetHormigas()->at(i)->Collision(caracol->GetRayo());
 	}
 	// CHECK VIDA PERSONAJE
-	if (!caracol->isAlive())
+	if (!caracol->IsAlive())
 	{
 		gameOver = true;
 		al_rest(1);
@@ -129,8 +135,10 @@ bool GameScene::IsGameOver() const
 
 void GameScene::ResetGame()
 {
-	al_stop_samples();
+	gameOver = false;
 	caracol->ResetStats();
+	lives->clear();
 	for (int i = 0; i < caracol->GetLives(); i++)
 		lives->push_back(new Sprite(5 + i * 70, 5, "Asset/Sprite/corazon.png", 0, 0));
+	gameScore = 0;
 }

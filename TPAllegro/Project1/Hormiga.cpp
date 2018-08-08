@@ -1,8 +1,7 @@
 #include "Hormiga.h"
 
-Hormiga::Hormiga(float posX, float posY, int dX, int dY) : Sprite(posX, posY, "Asset/Sprite/hormiga.png", 40, 40)
+Hormiga::Hormiga(float posX, float posY, int dX, int dY) : Enemy(posX, posY, "Asset/Sprite/hormiga.png", 40, 40)
 {
-	AddType(ENEMY);
 	dirX = dX;
 	dirY = dY;
 	hit = al_load_sample("Asset/Sound/hormigaHit.wav");
@@ -35,6 +34,7 @@ void Hormiga::Kill()
 	{
 		isAlive = false;
 		al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		gameScore += SCORE_HORMIGA;
 	}
 }
 
@@ -52,16 +52,4 @@ bool Hormiga::IsAlive() const
 void Hormiga::Revive()
 {
 	isAlive = true;
-}
-
-void Hormiga::Collision(Sprite * collision)
-{
-	if (CheckCollision(this, collision))
-	{
-		if (collision->GetType() == BULLET && isAlive)
-		{
-			Kill();
-			gameScore += SCORE_HORMIGA;
-		}
-	}
 }

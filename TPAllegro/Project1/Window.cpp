@@ -88,6 +88,11 @@ bool Window::IsOpen() const
 void Window::Draw()
 {
 	redraw = false;
+}
+
+void Window::Close()
+{
+	isOpen = false;
 }
 
 ALLEGRO_DISPLAY * Window::GetDisplay()
@@ -137,16 +142,5 @@ void Window::EventManager()
 	// DIBUJAR DE NUEVO
 	if (ev.type == ALLEGRO_EVENT_TIMER) {
 		redraw = true;
-	}
-	else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-	{
-		isOpen = false;
-	}
-	if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
-	{
-		if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-		{
-			isOpen = false;
-		}
 	}
 }

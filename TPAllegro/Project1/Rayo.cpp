@@ -43,13 +43,14 @@ void Rayo::SetActivated(bool val)
 	isActivated = val;
 }
 
-void Rayo::Collision(Sprite* collision)
+void Rayo::Collision(Enemy* collision)
 {
 	if (CheckCollision(this,collision))
 	{
 		if (collision->GetType() == ENEMY && isActivated)
 		{
 			isActivated = false;
+			collision->Kill();
 		}
 	}
 }

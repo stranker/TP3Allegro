@@ -1,6 +1,7 @@
 #ifndef CARACOL_H
 #define CARACOL_H
 #include "Rayo.h"
+#include "Enemy.h"
 
 class Caracol : public Sprite
 {
@@ -25,9 +26,9 @@ public:
 	int GetDirY() const;
 	Rayo* GetRayo() const;
 	void TakeDamage();
-	bool isAlive() const;
+	bool IsAlive() const;
 	int GetLives() const;
-	void Collision(Sprite* collision);
+	void Collision(Enemy* collision);
 	void ResetStats();
 };
 

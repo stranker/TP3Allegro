@@ -27,6 +27,7 @@ public:
 	bool CanDraw() const;
 	bool IsOpen() const;
 	void Draw();
+	void Close();
 };
 
 #endif

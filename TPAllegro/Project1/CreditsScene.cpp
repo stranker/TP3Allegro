@@ -49,6 +49,12 @@ void CreditsScene::Draw()
 void CreditsScene::Update()
 {
 	GetWindow()->EventManager();
+	if (GetWindow()->GetEvent().type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+	{
+		al_rest(0.2);
+		SetRunning(false);
+		GetWindow()->Close();
+	}
 	if (GetWindow()->GetEvent().type == ALLEGRO_EVENT_KEY_DOWN)
 	{
 		if (GetWindow()->GetEvent().keyboard.keycode == ALLEGRO_KEY_R)

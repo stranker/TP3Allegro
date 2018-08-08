@@ -123,9 +123,13 @@ Rayo * Caracol::GetRayo() const
 
 void Caracol::TakeDamage()
 {
-	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
-	life--;
+	if (IsAlive())
+	{
+		life--;
+		al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
+	}
+
 }
 
 int Caracol::GetLives() const
@@ -133,13 +137,17 @@ int Caracol::GetLives() const
 	return life;
 }
 
-void Caracol::Collision(Sprite * collision)
+void Caracol::Collision(Enemy * collision)
 {
 	if (CheckCollision(this, collision))
 	{
 		if (collision->GetType() == ENEMY)
 		{
-			TakeDamage();
+			if (collision->IsAlive())
+			{
+				TakeDamage();
+				collision->Kill();
+			}
 		}
 	}
 }
@@ -148,9 +156,13 @@ void Caracol::ResetStats()
 {
 	life = MAX_LIFE;
 	SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
+	keys[0] = false;
+	keys[1] = false;
+	keys[2] = false;
+	keys[3] = false;
 }
 
-bool Caracol::isAlive() const
+bool Caracol::IsAlive() const
 {
 	return life > 0;
 }

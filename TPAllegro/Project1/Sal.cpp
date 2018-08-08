@@ -1,13 +1,12 @@
 #include "Sal.h"
 
-Sal::Sal() : Sprite (0,0,"Asset/Sprite/sal.png",60,96)
+Sal::Sal() : Enemy (0,0,"Asset/Sprite/sal.png",60,96)
 {
-	AddType(ENEMY);
 	Initialize();
 	hit = al_load_sample("Asset/Sound/salHit.wav");
 }
 
-Sal::Sal(float posX, float posY, const char * imageFile, int w, int h, bool latMov) : Sprite(posX, posY, imageFile, w, h)
+Sal::Sal(float posX, float posY, const char * imageFile, int w, int h, bool latMov) : Enemy(posX, posY, imageFile, w, h)
 {
 	lateralMovement = latMov;
 	hit = al_load_sample("Asset/Sound/salHit.wav");
@@ -64,6 +63,7 @@ void Sal::Movimiento()
 
 void Sal::Initialize()
 {
+	isAlive = true;
 	int posX;
 	int posY;
 	switch (rand() % 4)
@@ -104,18 +104,12 @@ void Sal::Update()
 
 void Sal::Kill()
 {
-	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	Initialize();
-}
-
-void Sal::Collision(Sprite * collision)
-{
-	if (CheckCollision(this,collision))
+	if (isAlive)
 	{
-		if (collision->GetType() == BULLET)
-		{
-			Kill();
-			gameScore += SCORE_SAL;
-		}
+		isAlive = false;
+		gameScore += SCORE_SAL;
+		al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		Initialize();
 	}
+
 }
