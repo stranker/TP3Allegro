@@ -82,3 +82,17 @@ void Sprite::ChangeSprite(const char * file)
 	sprite = al_load_bitmap(file);
 }
 
+void Sprite::Collision(Sprite * sprite)
+{
+}
+
+void Sprite::AddType(int _type)
+{
+	type = _type;
+}
+
+int Sprite::GetType() const
+{
+	return type;
+}
+

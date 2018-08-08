@@ -1,15 +1,18 @@
-#pragma once
+#ifndef CREDITS_SCENE_H
+#define CREDITS_SCENE_H
 #include "Scene.h"
+
 class CreditsScene :
 	public Scene
 {
 private:
 	ALLEGRO_FONT *titleFont,*creditsFont, *exitFont;
 public:
-	CreditsScene(int _SCREEN_W, int _SCREEN_H, int _FPS);
+	CreditsScene();
 	~CreditsScene();
 	virtual int Run();
 	virtual void Draw();
 	virtual void Update();
 };
 
+#endif

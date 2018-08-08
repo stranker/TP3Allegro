@@ -13,11 +13,12 @@ class Rayo : public Sprite{
 public:
 	Rayo(float posX, float posY, const char* imageFile, int w, int h);
 	~Rayo();
-	void Movimiento(int SCREEN_W, int SCREEN_H);
-	void Update(int SCREEN_W, int SCREEN_H);
+	void Movimiento();
+	void Update();
 	void Shoot(float posX, float posY, float dirX, float dirY);
 	bool GetActivated() const;
 	void SetActivated(bool val);
+	virtual void Colision(Sprite* collision);
 };
 #endif
 

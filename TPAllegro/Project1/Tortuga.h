@@ -10,13 +10,13 @@ private:
 	int dir = 1;
 	ALLEGRO_SAMPLE *hit = NULL;
 public:
-	Tortuga(int SCREEN_W, int SCREEN_H);
+	Tortuga();
 	Tortuga(float posX, float posY, const char* fileLoc, int w, int h);
 	~Tortuga();
-	void Movimiento(int SCREEN_W, int SCREEN_H);
-	void Initialize(int SCREEN_W, int SCREEN_H);
-	void Update(int SCREEN_W, int SCREEN_H);
-	void Kill(int SCREEN_W, int SCREEN_H);
+	void Movimiento();
+	void Initialize();
+	void Update();
+	void Kill();
 };
 
 #endif

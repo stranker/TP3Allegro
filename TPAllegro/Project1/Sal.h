@@ -11,13 +11,13 @@ private:
 	int dir = 1;
 	ALLEGRO_SAMPLE *hit = NULL;
 public:
-	Sal(int SCREEN_W, int SCREEN_H);
+	Sal();
 	Sal(float posX, float posY, const char* imageFile, int w, int h, bool lateralMovement);
 	~Sal();
-	void Movimiento(int SCREEN_W, int SCREEN_H);
-	void Initialize(int SCREEN_W, int SCREEN_H);
-	void Update(int SCREEN_W, int SCREEN_H);
-	void Kill(int SCREEN_W, int SCREEN_H);
+	void Movimiento();
+	void Initialize();
+	void Update();
+	void Kill();
 };
 
 #endif // ! SAL_H

@@ -12,8 +12,8 @@ private:
 public:
 	Hormiga(float posX, float posY, int dX, int dY);
 	~Hormiga();
-	void Movimiento(int SCREEN_W, int SCREEN_H);
-	void Update(int SCREEN_W, int SCREEN_H);
+	void Movimiento();
+	void Update();
 	void Kill();
 	void SetDir(int x, int y);
 	bool IsAlive() const;

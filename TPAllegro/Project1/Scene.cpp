@@ -1,10 +1,7 @@
 #include "Scene.h"
 
-Scene::Scene(int _SCREEN_W, int _SCREEN_H, int _FPS)
+Scene::Scene()
 {
-	SCREEN_W = _SCREEN_W;
-	SCREEN_H = _SCREEN_H;
-	FPS = _FPS;
 	Initialize();
 }
 
@@ -160,14 +157,4 @@ void Scene::SetRedraw(bool val)
 void Scene::SetRunning(bool val)
 {
 	sceneRunning = val;
-}
-
-int Scene::GetScreenW() const
-{
-	return SCREEN_W;
-}
-
-int Scene::GetScreenH() const
-{
-	return SCREEN_H;
 }

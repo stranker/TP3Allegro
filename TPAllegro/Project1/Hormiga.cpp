@@ -2,6 +2,7 @@
 
 Hormiga::Hormiga(float posX, float posY, int dX, int dY) : Sprite(posX, posY, "Asset/Sprite/hormiga.png", 40, 40)
 {
+	AddType(ENEMY);
 	dirX = dX;
 	dirY = dY;
 	hit = al_load_sample("Asset/Sound/hormigaHit.wav");
@@ -18,14 +19,14 @@ Hormiga::~Hormiga()
 	al_destroy_sample(hit);
 }
 
-void Hormiga::Movimiento(int SCREEN_W, int SCREEN_H)
+void Hormiga::Movimiento()
 {
 	Move(dirX * speed, dirY * speed);
 }
 
-void Hormiga::Update(int SCREEN_W, int SCREEN_H)
+void Hormiga::Update()
 {
-	Movimiento(SCREEN_W, SCREEN_H);
+	Movimiento();
 }
 
 void Hormiga::Kill()

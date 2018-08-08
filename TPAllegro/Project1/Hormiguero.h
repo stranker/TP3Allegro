@@ -2,15 +2,16 @@
 #define HORMIGUERO_H
 #include "Hormiga.h"
 #include <vector>
-class Hormiguero :	public Sprite
+
+class Hormiguero : public Sprite
 {
 private:
 	vector<Hormiga*> *hormigas;
 public:
-	Hormiguero(int SCREEN_W, int SCREEN_H);
+	Hormiguero();
 	~Hormiguero();
-	void Initialize(int SCREEN_W, int SCREEN_H);
-	void Reset(int SCREEN_W, int SCREEN_H);
+	void Initialize();
+	void Reset();
 	vector<Hormiga*>* GetHormigas() const;
 };
 

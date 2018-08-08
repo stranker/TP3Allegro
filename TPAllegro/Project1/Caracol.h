@@ -1,7 +1,6 @@
 #ifndef CARACOL_H
 #define CARACOL_H
 #include "Rayo.h"
-#include "Sprite.h"
 #define MAX_LIFE 3
 
 class Caracol : public Sprite
@@ -19,8 +18,8 @@ public:
 	Caracol(float posX, float posY);
 	Caracol(float posX, float posY, const char* imageFile, int w, int h);
 	~Caracol();
-	void Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H);
-	void Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H);
+	void Movimiento(ALLEGRO_EVENT ev);
+	void Update(ALLEGRO_EVENT ev);
 	void SetCanShoot(bool val);
 	bool GetCanShoot() const;
 	int GetDirX() const;
@@ -29,6 +28,7 @@ public:
 	void TakeDamage();
 	bool isAlive() const;
 	int GetLives() const;
+	virtual void Collision(Sprite* collision);
 };
 
 #endif

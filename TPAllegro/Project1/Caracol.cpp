@@ -4,6 +4,7 @@ enum KEYS { UP, DOWN, LEFT, RIGHT };
 
 Caracol::Caracol(float posX, float posY) : Sprite(posX, posY, "Asset/Sprite/player.png", 78, 50)
 {
+	AddType(PLAYER);
 	rayo = new Rayo(posX, posY, "Asset/Sprite/laser.png", 32, 32);
 	hit = al_load_sample("Asset/Sound/playerHit.wav");
 }
@@ -19,7 +20,7 @@ Caracol::~Caracol()
 	al_destroy_sample(hit);
 }
 
-void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
+void Caracol::Movimiento(ALLEGRO_EVENT ev)
 {
 	if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 		switch (ev.keyboard.keycode) {
@@ -84,13 +85,13 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H)
 	Move(0, keys[DOWN] * speed);
 	Move(-keys[LEFT] * speed, 0);
 	Move(keys[RIGHT] * speed, 0);
-	Clamp(0, SCREEN_W - GetWidth(), 0, SCREEN_H - GetHeight());		
+	Clamp(0, SCREEN_W - GetWidth(), 0, SCREEN_H - GetHeight());
 }
 
-void Caracol::Update(ALLEGRO_EVENT ev, int SCREEN_W, int SCREEN_H) {
-	Movimiento(ev, SCREEN_W, SCREEN_H);
+void Caracol::Update(ALLEGRO_EVENT ev) {
+	Movimiento(ev);
 	if (rayo->GetActivated())
-		rayo->Update(SCREEN_W, SCREEN_H);
+		rayo->Update();
 	else
 		canShoot = true;
 }
@@ -129,6 +130,18 @@ void Caracol::TakeDamage()
 int Caracol::GetLives() const
 {
 	return life;
+}
+
+void Caracol::Collision(Sprite * collision)
+{
+	switch (collision->GetType())
+	{
+	case ENEMY:
+		TakeDamage();
+		SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
+	default:
+		break;
+	}
 }
 
 bool Caracol::isAlive() const

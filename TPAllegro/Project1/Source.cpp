@@ -1,15 +1,17 @@
 #include<iostream>
 #include<stdio.h>
-#include "Game.h"
+#include "GameScene.h"
 #include "MenuScene.h"
 #include "CreditsScene.h"
 
 using namespace std;
 
+int globalScore = 0;
+
 int main(int argc, char **argv) {
 	srand(time(NULL));
-	MenuScene* menu = new MenuScene(800,600, 60);
-	CreditsScene* credits = new CreditsScene(800, 600, 60);
+	MenuScene* menu = new MenuScene();
+	CreditsScene* credits = new CreditsScene();
 	vector<Scene*> scenes;
 	int currentScene = 0;
 	scenes.push_back(menu);
@@ -22,22 +24,4 @@ int main(int argc, char **argv) {
 	delete menu;
 	delete credits;
 	return 0;
-	/*
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			// CIERRA LA VENTANA
-			if ((event.type == Event::Closed) || (event.type == Event::KeyPressed) && (event.key.code == Keyboard::Escape))
-				window.close();
-		}
-		if (screen >= 0)
-		{
-			screen = screens[screen]->Run(window);
-		}
-	}
-
-	return 0;
-	*/
 } 

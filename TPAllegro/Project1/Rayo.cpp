@@ -2,6 +2,7 @@
 
 Rayo::Rayo(float posX, float posY, const char* imageFile, int w, int h) : Sprite(posX, posY, imageFile, w, h)
 {
+	AddType(BULLET);
 	sound = al_load_sample("Asset/Sound/laser.wav");
 }
 
@@ -11,16 +12,16 @@ Rayo::~Rayo()
 	al_destroy_sample(sound);
 }
 
-void Rayo::Movimiento(int SCREEN_W, int SCREEN_H)
+void Rayo::Movimiento()
 {
 	Move(dirX * speed, dirY * speed);
 	if (GetPosX() < 0 - GetWidth() || GetPosX() > SCREEN_W || GetPosY() < 0 - GetHeight() || GetPosY() > SCREEN_H)
 		isActivated = false;
 }
 
-void Rayo::Update(int SCREEN_W, int SCREEN_H)
+void Rayo::Update()
 {
-	Movimiento(SCREEN_W, SCREEN_H);
+	Movimiento();
 }
 
 void Rayo::Shoot(float posX, float posY, float _dirX, float _dirY)
@@ -40,4 +41,8 @@ bool Rayo::GetActivated() const
 void Rayo::SetActivated(bool val)
 {
 	isActivated = val;
+}
+
+void Rayo::Colision(Sprite* collision)
+{
 }

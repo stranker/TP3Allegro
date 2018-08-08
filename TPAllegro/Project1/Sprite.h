@@ -1,12 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <iostream>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_native_dialog.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
+#include "Resources.h"
 
 using namespace std;
 
@@ -18,6 +13,7 @@ private:
 	float positionY;
 	int spriteW;
 	int spriteH;
+	int type;
 	bool flipH = false;
 public:
 	Sprite(float posX, float posY, const char* fileLoc, int w, int h);
@@ -33,6 +29,9 @@ public:
 	void Clamp(int xIni, int xFin, int yIni, int yFin);
 	void FlipH(bool val);
 	void ChangeSprite(const char* file);
+	void Collision(Sprite* sprite);
+	void AddType(int _type);
+	int GetType() const;
 };
 
 #endif

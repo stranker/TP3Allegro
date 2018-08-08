@@ -1,8 +1,9 @@
 #include "Sal.h"
 
-Sal::Sal(int SCREEN_W, int SCREEN_H) : Sprite (0,0,"Asset/Sprite/sal.png",60,96)
+Sal::Sal() : Sprite (0,0,"Asset/Sprite/sal.png",60,96)
 {
-	Initialize(SCREEN_W,SCREEN_H);
+	AddType(ENEMY);
+	Initialize();
 	hit = al_load_sample("Asset/Sound/salHit.wav");
 }
 
@@ -17,7 +18,7 @@ Sal::~Sal()
 	al_destroy_sample(hit);
 }
 
-void Sal::Movimiento(int SCREEN_W, int SCREEN_H)
+void Sal::Movimiento()
 {
 	if (lateralMovement)
 	{
@@ -61,7 +62,7 @@ void Sal::Movimiento(int SCREEN_W, int SCREEN_H)
 	}
 }
 
-void Sal::Initialize(int SCREEN_W, int SCREEN_H)
+void Sal::Initialize()
 {
 	int posX;
 	int posY;
@@ -96,13 +97,13 @@ void Sal::Initialize(int SCREEN_W, int SCREEN_H)
 	SetPosition(posX, posY);
 }
 
-void Sal::Update(int SCREEN_W, int SCREEN_H)
+void Sal::Update()
 {
-	Movimiento(SCREEN_W, SCREEN_H);
+	Movimiento();
 }
 
-void Sal::Kill(int SCREEN_W, int SCREEN_H)
+void Sal::Kill()
 {
 	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	Initialize(SCREEN_W, SCREEN_H);
+	Initialize();
 }

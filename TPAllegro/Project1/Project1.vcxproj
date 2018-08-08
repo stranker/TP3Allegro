@@ -185,7 +185,7 @@ xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s
     <ClCompile Include="Caracol.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CreditsScene.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Hormiga.cpp" />
     <ClCompile Include="Hormiguero.cpp" />
     <ClCompile Include="MenuScene.cpp" />
@@ -200,11 +200,12 @@ xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s
     <ClInclude Include="Caracol.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CreditsScene.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="Hormiga.h" />
     <ClInclude Include="Hormiguero.h" />
     <ClInclude Include="MenuScene.h" />
     <ClInclude Include="Rayo.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Sal.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />

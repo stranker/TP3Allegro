@@ -1,9 +1,10 @@
 #include "Tortuga.h"
 
-Tortuga::Tortuga(int SCREEN_W, int SCREEN_H) : Sprite(0, 0, "Asset/Sprite/tortuga.png", 80, 40)
+Tortuga::Tortuga() : Sprite(0, 0, "Asset/Sprite/tortuga.png", 80, 40)
 {
+	AddType(ENEMY);
 	hit = al_load_sample("Asset/Sound/tortugaHit.wav");
-	Initialize(SCREEN_W, SCREEN_H);
+	Initialize();
 }
 
 Tortuga::Tortuga(float posX, float posY, const char * fileLoc, int w, int h) : Sprite(posX, posY, fileLoc, w , h)
@@ -15,7 +16,7 @@ Tortuga::~Tortuga()
 	al_destroy_sample(hit);
 }
 
-void Tortuga::Movimiento(int SCREEN_W, int SCREEN_H)
+void Tortuga::Movimiento()
 {
 	if (GetPosX() < 0 - GetWidth())
 	{
@@ -32,7 +33,7 @@ void Tortuga::Movimiento(int SCREEN_W, int SCREEN_H)
 	Move(dir*speed, 0);
 }
 
-void Tortuga::Initialize(int SCREEN_W, int SCREEN_H)
+void Tortuga::Initialize()
 {
 	if (rand() % 100 > 50)
 	{
@@ -48,13 +49,13 @@ void Tortuga::Initialize(int SCREEN_W, int SCREEN_H)
 	}
 }
 
-void Tortuga::Update(int SCREEN_W, int SCREEN_H)
+void Tortuga::Update()
 {
-	Movimiento(SCREEN_W, SCREEN_H);
+	Movimiento();
 }
 
-void Tortuga::Kill(int SCREEN_W, int SCREEN_H)
+void Tortuga::Kill()
 {
 	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	Initialize(SCREEN_W, SCREEN_H);
+	Initialize();
 }

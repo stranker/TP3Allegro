@@ -1,7 +1,6 @@
 #include "MenuScene.h"
 
-
-MenuScene::MenuScene(int _SCREEN_W, int _SCREEN_H, int _FPS) : Scene(_SCREEN_W,_SCREEN_H,_FPS)
+MenuScene::MenuScene()
 {
 	titleFont = al_load_ttf_font("Asset/Font/consola.ttf", 72, 0);
 	menuFont = al_load_ttf_font("Asset/Font/consola.ttf", 28, 0);
@@ -20,7 +19,7 @@ int MenuScene::Run()
 {
 	SetRunning(true);
 	al_play_sample(titleSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-	caracol = new Caracol(GetScreenW() / 2, GetScreenH() / 2);
+	caracol = new Caracol(SCREEN_W / 2, SCREEN_H / 2);
 	while (IsRunning())
 	{
 		Update();
@@ -35,12 +34,12 @@ void MenuScene::Draw()
 	{
 		SetRedraw(false);
 		al_clear_to_color(al_map_rgb(20, 75, 0));
-		al_draw_text(titleFont, al_map_rgb(255, 255, 255), GetScreenW() / 2, GetScreenH() / 2 - 150, ALLEGRO_ALIGN_CENTRE, "SNAILWORM SHIM");
-		al_draw_text(menuFont, al_map_rgb(200, 0, 200), GetScreenW() / 2, GetScreenH() / 2 - 90, ALLEGRO_ALIGN_CENTRE, "REFURBISHED EDITION!");
-		al_draw_text(menuFont, al_map_rgb(0, 0, 0), GetScreenW() / 2, GetScreenH() - 200, ALLEGRO_ALIGN_CENTRE, "USE 'ARROWS' TO MOVE AND 'SPACE' TO FIRE!");
-		al_draw_text(menuFont, al_map_rgb(0, 0, 0), GetScreenW() / 2, GetScreenH() - 150, ALLEGRO_ALIGN_CENTRE, "PRESS 'ENTER' TO START GAME");
-		al_draw_text(menuFont, al_map_rgb(0, 0, 0), GetScreenW() / 2, GetScreenH() - 100, ALLEGRO_ALIGN_CENTRE, "PRESS 'C' TO CREDITS");
-		al_draw_text(menuFont, al_map_rgb(0, 0, 0), GetScreenW() / 2, GetScreenH() - 50, ALLEGRO_ALIGN_CENTRE, "PRESS 'ESC' TO EXIT");
+		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 150, ALLEGRO_ALIGN_CENTRE, "SNAILWORM SHIM");
+		al_draw_text(menuFont, al_map_rgb(200, 0, 200), SCREEN_W / 2, SCREEN_H / 2 - 90, ALLEGRO_ALIGN_CENTRE, "REFURBISHED EDITION!");
+		al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 200, ALLEGRO_ALIGN_CENTRE, "USE 'ARROWS' TO MOVE AND 'SPACE' TO FIRE!");
+		al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 150, ALLEGRO_ALIGN_CENTRE, "PRESS 'ENTER' TO START GAME");
+		al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 100, ALLEGRO_ALIGN_CENTRE, "PRESS 'C' TO CREDITS");
+		al_draw_text(menuFont, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H - 50, ALLEGRO_ALIGN_CENTRE, "PRESS 'ESC' TO EXIT");
 		caracol->Draw();
 		if (!caracol->GetCanShoot())
 		{
@@ -71,7 +70,7 @@ void MenuScene::Update()
 			SetRunning(false);
 		}
 	}
-	caracol->Update(GetEvent(), GetScreenW(), GetScreenH());
-	caracol->GetRayo()->Update(GetScreenW(), GetScreenH());
+	caracol->Update(GetEvent());
+	caracol->GetRayo()->Update();
 }
 

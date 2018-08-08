@@ -1,6 +1,7 @@
 #ifndef MENU_SCENE_H
 #define MENU_SCENE_H
 #include "Scene.h"
+#include "Caracol.h"
 
 class MenuScene :
 	public Scene
@@ -11,7 +12,7 @@ private:
 	ALLEGRO_SAMPLE *titleSound = NULL;
 	int nextScene = 0;
 public:
-	MenuScene(int _SCREEN_W, int _SCREEN_H, int _FPS);
+	MenuScene();
 	~MenuScene();
 	virtual int Run();
 	virtual void Draw();

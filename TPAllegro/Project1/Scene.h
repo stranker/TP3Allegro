@@ -1,7 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Game.h"
+#include "Resources.h"
 
 using namespace std;
 
@@ -12,13 +12,10 @@ private:
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT ev;
-	int SCREEN_W;
-	int SCREEN_H;
-	int FPS;
 	bool sceneRunning;
 	bool redraw = true;
 public:
-	Scene(int SCREEN_W, int SCREEN_H, int FPS);
+	Scene();
 	~Scene();
 	int Initialize();
 	int EventInit();
@@ -35,8 +32,6 @@ public:
 	ALLEGRO_EVENT GetEvent() const;
 	void SetRedraw(bool val);
 	void SetRunning(bool val);
-	int GetScreenW() const;
-	int GetScreenH() const;
 };
 
 #endif
