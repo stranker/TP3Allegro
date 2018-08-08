@@ -77,6 +77,8 @@ void MenuScene::Update()
 		{
 			nextScene = -1;
 			SetRunning(false);
+			GetWindow()->Close();
+
 		}
 	}
 	caracol->Update(GetWindow()->GetEvent());

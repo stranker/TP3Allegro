@@ -40,6 +40,7 @@ void CreditsScene::Draw()
 		al_draw_text(creditsFont, al_map_rgb(10, 0, 255), SCREEN_W / 2, 280, ALLEGRO_ALIGN_CENTRE, "2D Special Artists:");
 		al_draw_text(exitFont, al_map_rgb(10, 0, 255), SCREEN_W / 2, 330, ALLEGRO_ALIGN_CENTRE, "Nicolas Lopez");
 		al_draw_text(exitFont, al_map_rgb(10, 0, 255), SCREEN_W / 2, 380, ALLEGRO_ALIGN_CENTRE, "Daniel H Natarelli");
+		al_draw_text(exitFont, al_map_rgb(255, 0, 255), SCREEN_W / 2, 430, ALLEGRO_ALIGN_CENTRE, "Game made with Allegro library!");
 		al_draw_text(exitFont, al_map_rgb(200, 0, 200), SCREEN_W / 2, SCREEN_H - 130, ALLEGRO_ALIGN_CENTRE, "If you see this game in another page just BUY it.");
 		al_draw_text(exitFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H - 90, ALLEGRO_ALIGN_CENTRE, "PRESS 'R' TO RETURN");
 		al_flip_display();
