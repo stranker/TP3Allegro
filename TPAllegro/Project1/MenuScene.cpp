@@ -15,9 +15,10 @@ MenuScene::~MenuScene()
 	al_destroy_sample(titleSound);
 }
 
-int MenuScene::Run()
+int MenuScene::Run(Window* window)
 {
 	SetRunning(true);
+	SetWindow(window);
 	al_play_sample(titleSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	caracol = new Caracol(SCREEN_W / 2, SCREEN_H / 2);
 	while (IsRunning())
@@ -30,9 +31,9 @@ int MenuScene::Run()
 
 void MenuScene::Draw()
 {
-	if (CanDraw())
+	if (GetWindow()->CanDraw())
 	{
-		SetRedraw(false);
+		GetWindow()->Draw();
 		al_clear_to_color(al_map_rgb(20, 75, 0));
 		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2 - 150, ALLEGRO_ALIGN_CENTRE, "SNAILWORM SHIM");
 		al_draw_text(menuFont, al_map_rgb(200, 0, 200), SCREEN_W / 2, SCREEN_H / 2 - 90, ALLEGRO_ALIGN_CENTRE, "REFURBISHED EDITION!");
@@ -51,26 +52,28 @@ void MenuScene::Draw()
 
 void MenuScene::Update()
 {
-	EventManager();
-	if (GetEvent().type == ALLEGRO_EVENT_KEY_DOWN)
+	GetWindow()->EventManager();
+	if (GetWindow()->GetEvent().type == ALLEGRO_EVENT_KEY_DOWN)
 	{
-		if (GetEvent().keyboard.keycode == ALLEGRO_KEY_ENTER)
+		if (GetWindow()->GetEvent().keyboard.keycode == ALLEGRO_KEY_ENTER)
 		{
-			al_set_timer_count(GetTimer(), 0);
 			al_rest(0.2);
-		}
-		else if (GetEvent().keyboard.keycode == ALLEGRO_KEY_C)
-		{
-			nextScene = 1;
+			nextScene = GAME_SCENE;
 			SetRunning(false);
 		}
-		else if (GetEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+		else if (GetWindow()->GetEvent().keyboard.keycode == ALLEGRO_KEY_C)
+		{
+			al_rest(0.2);
+			nextScene = CREDITS_SCENE;
+			SetRunning(false);
+		}
+		else if (GetWindow()->GetEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 		{
 			nextScene = -1;
 			SetRunning(false);
 		}
 	}
-	caracol->Update(GetEvent());
+	caracol->Update(GetWindow()->GetEvent());
 	caracol->GetRayo()->Update();
 }
 

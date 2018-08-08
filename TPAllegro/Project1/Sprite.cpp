@@ -82,10 +82,6 @@ void Sprite::ChangeSprite(const char * file)
 	sprite = al_load_bitmap(file);
 }
 
-void Sprite::Collision(Sprite * sprite)
-{
-}
-
 void Sprite::AddType(int _type)
 {
 	type = _type;
@@ -94,5 +90,11 @@ void Sprite::AddType(int _type)
 int Sprite::GetType() const
 {
 	return type;
+}
+
+bool Sprite::CheckCollision(Sprite * s1, Sprite * s2)
+{
+	return Collision::AABB(s1->GetPosX(),s1->GetPosY(),s1->GetWidth(),s1->GetHeight(),
+		s2->GetPosX(), s2->GetPosY(), s2->GetWidth(), s2->GetHeight());
 }
 

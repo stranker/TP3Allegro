@@ -1,7 +1,6 @@
 #ifndef CARACOL_H
 #define CARACOL_H
 #include "Rayo.h"
-#define MAX_LIFE 3
 
 class Caracol : public Sprite
 {
@@ -28,7 +27,8 @@ public:
 	void TakeDamage();
 	bool isAlive() const;
 	int GetLives() const;
-	virtual void Collision(Sprite* collision);
+	void Collision(Sprite* collision);
+	void ResetStats();
 };
 
 #endif

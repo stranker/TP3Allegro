@@ -18,6 +18,7 @@ public:
 	void Initialize();
 	void Update();
 	void Kill();
+	void Collision(Sprite* collision);
 };
 
 #endif // ! SAL_H

@@ -14,7 +14,7 @@ private:
 public:
 	MenuScene();
 	~MenuScene();
-	virtual int Run();
+	virtual int Run(Window* window);
 	virtual void Draw();
 	virtual void Update();
 };

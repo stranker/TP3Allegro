@@ -35,7 +35,7 @@ void Caracol::Movimiento(ALLEGRO_EVENT ev)
 					if (dirX == -1)
 						rayo->Shoot(GetPosX(), GetPosY() + 10, dirX, 0);
 					else
-						rayo->Shoot(GetPosX() + GetWidth(),GetPosY() + 10,dirX, 0);
+						rayo->Shoot(GetPosX() + GetWidth(), GetPosY() + 10, dirX, 0);
 				canShoot = false;
 			}
 			break;
@@ -124,6 +124,7 @@ Rayo * Caracol::GetRayo() const
 void Caracol::TakeDamage()
 {
 	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+	SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
 	life--;
 }
 
@@ -134,14 +135,19 @@ int Caracol::GetLives() const
 
 void Caracol::Collision(Sprite * collision)
 {
-	switch (collision->GetType())
+	if (CheckCollision(this, collision))
 	{
-	case ENEMY:
-		TakeDamage();
-		SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
-	default:
-		break;
+		if (collision->GetType() == ENEMY)
+		{
+			TakeDamage();
+		}
 	}
+}
+
+void Caracol::ResetStats()
+{
+	life = MAX_LIFE;
+	SetPosition(SCREEN_W / 2 - GetWidth() / 2, SCREEN_H / 2 - GetHeight() / 2);
 }
 
 bool Caracol::isAlive() const

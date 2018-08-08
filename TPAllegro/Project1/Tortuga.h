@@ -1,5 +1,5 @@
 #ifndef TORTUGA_H
-#define TORTUTA_H
+#define TORTUGA_H
 
 #include "Sprite.h"
 
@@ -17,6 +17,7 @@ public:
 	void Initialize();
 	void Update();
 	void Kill();
+	void Collision(Sprite* collision);
 };
 
 #endif

@@ -10,7 +10,7 @@ private:
 public:
 	CreditsScene();
 	~CreditsScene();
-	virtual int Run();
+	virtual int Run(Window* window);
 	virtual void Draw();
 	virtual void Update();
 };

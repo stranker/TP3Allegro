@@ -192,6 +192,7 @@ xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s
     <ClCompile Include="Rayo.cpp" />
     <ClCompile Include="Sal.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Tortuga.cpp" />
@@ -208,6 +209,7 @@ xcopy "$(SolutionDir)Project1\Asset" "$(OutDir)Asset" /y /i /s
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Sal.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Tortuga.h" />
   </ItemGroup>

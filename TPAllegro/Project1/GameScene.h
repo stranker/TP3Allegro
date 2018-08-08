@@ -8,7 +8,7 @@
 #include "Tortuga.h"
 #include "Hormiguero.h"
 
-class Game :
+class GameScene :
 	public Scene
 {
 private:
@@ -20,14 +20,15 @@ private:
 	Hormiguero* hormiguero;
 	ALLEGRO_SAMPLE *music = NULL;
 	bool gameOver = false;
-	int score = 0;
 public:
-	Game();
-	~Game();
+	GameScene();
+	~GameScene();
 	void Initialize();
+	virtual int Run(Window* window);
 	virtual void Draw();
 	virtual void Update();
 	bool IsGameOver() const;
+	void ResetGame();
 };
 
 #endif

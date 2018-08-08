@@ -18,7 +18,7 @@ public:
 	void Shoot(float posX, float posY, float dirX, float dirY);
 	bool GetActivated() const;
 	void SetActivated(bool val);
-	virtual void Colision(Sprite* collision);
+	void Collision(Sprite* collision);
 };
 #endif
 

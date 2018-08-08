@@ -15,23 +15,23 @@ CreditsScene::~CreditsScene()
 	al_destroy_font(exitFont);
 }
 
-int CreditsScene::Run()
+int CreditsScene::Run(Window* window)
 {
 	SetRunning(true);
-
+	SetWindow(window);
 	while (IsRunning())
 	{
 		Update();
 		Draw();
 	}
-	return 0;
+	return MENU_SCENE;
 }
 
 void CreditsScene::Draw()
 {
-	if (CanDraw())
+	if (GetWindow()->CanDraw())
 	{
-		SetRedraw(false);
+		GetWindow()->Draw();
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 		al_draw_text(titleFont, al_map_rgb(255, 255, 255), SCREEN_W / 2, 50, ALLEGRO_ALIGN_CENTRE, "CREDITS");
 		al_draw_text(creditsFont, al_map_rgb(10, 0, 255), SCREEN_W / 2, 130, ALLEGRO_ALIGN_CENTRE, "Programmer:");
@@ -48,10 +48,10 @@ void CreditsScene::Draw()
 
 void CreditsScene::Update()
 {
-	EventManager();
-	if (GetEvent().type == ALLEGRO_EVENT_KEY_DOWN)
+	GetWindow()->EventManager();
+	if (GetWindow()->GetEvent().type == ALLEGRO_EVENT_KEY_DOWN)
 	{
-		if (GetEvent().keyboard.keycode == ALLEGRO_KEY_R)
+		if (GetWindow()->GetEvent().keyboard.keycode == ALLEGRO_KEY_R)
 		{
 			SetRunning(false);
 		}

@@ -53,3 +53,15 @@ void Hormiga::Revive()
 {
 	isAlive = true;
 }
+
+void Hormiga::Collision(Sprite * collision)
+{
+	if (CheckCollision(this, collision))
+	{
+		if (collision->GetType() == BULLET && isAlive)
+		{
+			Kill();
+			gameScore += SCORE_HORMIGA;
+		}
+	}
+}

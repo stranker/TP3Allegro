@@ -18,6 +18,7 @@ public:
 	void SetDir(int x, int y);
 	bool IsAlive() const;
 	void Revive();
+	void Collision(Sprite* collision);
 };
 
 #endif

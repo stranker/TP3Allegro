@@ -59,3 +59,15 @@ void Tortuga::Kill()
 	al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	Initialize();
 }
+
+void Tortuga::Collision(Sprite * collision)
+{
+	if (CheckCollision(this, collision))
+	{
+		if (collision->GetType() == BULLET)
+		{
+			Kill();
+			gameScore += SCORE_TORTUGA;
+		}
+	}
+}

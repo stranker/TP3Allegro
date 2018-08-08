@@ -2,6 +2,7 @@
 #define SPRITE_H
 
 #include "Resources.h"
+#include "Collision.h"
 
 using namespace std;
 
@@ -29,12 +30,9 @@ public:
 	void Clamp(int xIni, int xFin, int yIni, int yFin);
 	void FlipH(bool val);
 	void ChangeSprite(const char* file);
-	void Collision(Sprite* sprite);
 	void AddType(int _type);
 	int GetType() const;
+	bool CheckCollision(Sprite* s1, Sprite* s2);
 };
 
 #endif
-
-
-
