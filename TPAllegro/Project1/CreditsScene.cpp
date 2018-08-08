@@ -2,6 +2,9 @@
 
 CreditsScene::CreditsScene(int _SCREEN_W, int _SCREEN_H, int _FPS) : Scene(_SCREEN_W, _SCREEN_H, _FPS)
 {
+	titleFont = al_load_ttf_font("Asset/Font/consola.ttf", 72, 0);
+	creditsFont = al_load_ttf_font("Asset/Font/consola.ttf", 36, 0);
+	exitFont = al_load_ttf_font("Asset/Font/consola.ttf", 28, 0);
 }
 
 
@@ -9,14 +12,13 @@ CreditsScene::~CreditsScene()
 {
 	al_destroy_font(creditsFont);
 	al_destroy_font(titleFont);
+	al_destroy_font(exitFont);
 }
 
 int CreditsScene::Run()
 {
 	SetRunning(true);
-	titleFont = al_load_ttf_font("Asset/Font/consola.ttf", 72, 0);
-	creditsFont = al_load_ttf_font("Asset/Font/consola.ttf", 36, 0);
-	exitFont = al_load_ttf_font("Asset/Font/consola.ttf", 28, 0);
+
 	while (IsRunning())
 	{
 		Update();

@@ -3,6 +3,9 @@
 
 MenuScene::MenuScene(int _SCREEN_W, int _SCREEN_H, int _FPS) : Scene(_SCREEN_W,_SCREEN_H,_FPS)
 {
+	titleFont = al_load_ttf_font("Asset/Font/consola.ttf", 72, 0);
+	menuFont = al_load_ttf_font("Asset/Font/consola.ttf", 28, 0);
+	titleSound = al_load_sample("Asset/Sound/titleSound.wav");
 }
 
 MenuScene::~MenuScene()
@@ -16,9 +19,6 @@ MenuScene::~MenuScene()
 int MenuScene::Run()
 {
 	SetRunning(true);
-	titleFont = al_load_ttf_font("Asset/Font/consola.ttf", 72, 0);
-	menuFont = al_load_ttf_font("Asset/Font/consola.ttf", 28, 0);
-	titleSound = al_load_sample("Asset/Sound/titleSound.wav");
 	al_play_sample(titleSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	caracol = new Caracol(GetScreenW() / 2, GetScreenH() / 2);
 	while (IsRunning())
@@ -26,7 +26,7 @@ int MenuScene::Run()
 		Update();
 		Draw();
 	}
-	return 0;
+	return nextScene;
 }
 
 void MenuScene::Draw()
@@ -59,6 +59,16 @@ void MenuScene::Update()
 		{
 			al_set_timer_count(GetTimer(), 0);
 			al_rest(0.2);
+		}
+		else if (GetEvent().keyboard.keycode == ALLEGRO_KEY_C)
+		{
+			nextScene = 1;
+			SetRunning(false);
+		}
+		else if (GetEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+		{
+			nextScene = -1;
+			SetRunning(false);
 		}
 	}
 	caracol->Update(GetEvent(), GetScreenW(), GetScreenH());

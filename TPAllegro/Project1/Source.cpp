@@ -8,13 +8,17 @@ using namespace std;
 
 int main(int argc, char **argv) {
 	srand(time(NULL));
-	//Game* game = new Game(800, 600, 60);
 	MenuScene* menu = new MenuScene(800,600, 60);
 	CreditsScene* credits = new CreditsScene(800, 600, 60);
-	//menu->Run();
-	credits->Run();
+	vector<Scene*> scenes;
+	int currentScene = 0;
+	scenes.push_back(menu);
+	scenes.push_back(credits);
+	while (currentScene >= 0)
+	{
+		currentScene = scenes[currentScene]->Run();
+	}
 	al_rest(0.5);
-	//delete game;
 	delete menu;
 	delete credits;
 	return 0;

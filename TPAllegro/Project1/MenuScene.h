@@ -9,6 +9,7 @@ private:
 	ALLEGRO_FONT * titleFont, *menuFont;
 	Caracol* caracol;
 	ALLEGRO_SAMPLE *titleSound = NULL;
+	int nextScene = 0;
 public:
 	MenuScene(int _SCREEN_W, int _SCREEN_H, int _FPS);
 	~MenuScene();
