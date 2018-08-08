@@ -19,6 +19,7 @@ private:
 	bool redraw = true;
 public:
 	Scene(int SCREEN_W, int SCREEN_H, int FPS);
+	~Scene();
 	int Initialize();
 	int EventInit();
 	int CreateWindow();
@@ -33,6 +34,9 @@ public:
 	ALLEGRO_TIMER* GetTimer();
 	ALLEGRO_EVENT GetEvent() const;
 	void SetRedraw(bool val);
+	void SetRunning(bool val);
+	int GetScreenW() const;
+	int GetScreenH() const;
 };
 
 #endif

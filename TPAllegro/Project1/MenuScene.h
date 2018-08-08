@@ -7,9 +7,11 @@ class MenuScene :
 {
 private:
 	ALLEGRO_FONT * titleFont, *menuFont;
+	Caracol* caracol;
 	ALLEGRO_SAMPLE *titleSound = NULL;
 public:
 	MenuScene(int _SCREEN_W, int _SCREEN_H, int _FPS);
+	~MenuScene();
 	virtual int Run();
 	virtual void Draw();
 	virtual void Update();

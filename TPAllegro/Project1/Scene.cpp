@@ -8,6 +8,13 @@ Scene::Scene(int _SCREEN_W, int _SCREEN_H, int _FPS)
 	Initialize();
 }
 
+Scene::~Scene()
+{
+	al_destroy_timer(timer);
+	al_destroy_display(display);
+	al_destroy_event_queue(event_queue);
+}
+
 int Scene::Initialize()
 {
 	// SE INICIALIZA LA LIBRERIA ALLEGRO
@@ -97,6 +104,7 @@ int Scene::CreateTimer()
 void Scene::EventManager()
 {
 	al_wait_for_event(event_queue, &ev);
+	// DIBUJAR DE NUEVO
 	if (ev.type == ALLEGRO_EVENT_TIMER) {
 		redraw = true;
 	}
@@ -108,7 +116,7 @@ void Scene::EventManager()
 	{
 		if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 		{
-			sceneRunning = true;
+			sceneRunning = false;
 		}
 	}
 }
@@ -123,17 +131,18 @@ bool Scene::IsRunning() const
 	return sceneRunning;
 }
 
-ALLEGRO_DISPLAY * Scene::GetDisplay() const
+
+ALLEGRO_DISPLAY * Scene::GetDisplay()
 {
 	return display;
 }
 
-ALLEGRO_EVENT_QUEUE * Scene::GetEventQueue() const
+ALLEGRO_EVENT_QUEUE * Scene::GetEventQueue()
 {
 	return event_queue;
 }
 
-ALLEGRO_TIMER * Scene::GetTimer() const
+ALLEGRO_TIMER * Scene::GetTimer()
 {
 	return timer;
 }
@@ -146,4 +155,19 @@ ALLEGRO_EVENT Scene::GetEvent() const
 void Scene::SetRedraw(bool val)
 {
 	redraw = val;
+}
+
+void Scene::SetRunning(bool val)
+{
+	sceneRunning = val;
+}
+
+int Scene::GetScreenW() const
+{
+	return SCREEN_W;
+}
+
+int Scene::GetScreenH() const
+{
+	return SCREEN_H;
 }
