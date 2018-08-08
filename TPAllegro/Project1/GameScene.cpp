@@ -100,6 +100,7 @@ void GameScene::Update()
 	{
 		gameOver = true;
 		al_rest(1);
+		SetRunning(false);
 	}
 }
 
